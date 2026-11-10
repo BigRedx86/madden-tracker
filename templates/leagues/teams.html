@@ -6,7 +6,7 @@
   {% if teams %}
   <ul>
     {% for team in teams %}
-    <li>{{ team.name }}{% if form %} · <a href="{% url 'leagues:team_edit' league.pk team.pk %}">Rename {{ team.name }}</a>{% endif %}</li>
+    <li>{{ team.name }}{% if form %} · <a href="{% url 'leagues:team_edit' league.pk team.pk %}">Rename {{ team.name }}</a> · <a href="{% url 'leagues:team_delete' league.pk team.pk %}">Delete {{ team.name }}</a>{% endif %}</li>
     {% endfor %}
   </ul>
   {% else %}

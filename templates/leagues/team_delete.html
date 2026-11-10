@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Delete {{ team.name }} · {{ league.name }}{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Delete {{ team.name }}?</h1>
+  {% if seasons %}
+  <p>{{ team.name }} can't be deleted while it has seasons, because deleting it would take their games and stats with it. Delete these seasons first if you really mean to remove them:</p>
+  <ul>
+    {% for season in seasons %}
+    <li>{{ season.name }} · <a href="{% url 'leagues:season_delete' league.pk season.pk %}">Delete season {{ season.name }}</a></li>
+    {% endfor %}
+  </ul>
+  <p><a href="{% url 'leagues:teams' league.pk %}">Back to teams</a></p>
+  {% else %}
+  <p>{% if player_count %}Its {{ player_count }} player{{ player_count|pluralize }} will stay on the roster with no team. {% endif %}This can't be undone.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Delete team</button>
+    <a href="{% url 'leagues:teams' league.pk %}">Cancel</a>
+  </form>
+  {% endif %}
+</section>
+{% endblock %}

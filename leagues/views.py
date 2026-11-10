@@ -24,7 +24,7 @@ from . import policy
 from .access import get_in_league, league_view, require
 from .forms import BioForm, LeagueForm, LinkPlayerForm, PlayerForm, SeasonForm, TeamForm
 from .game_views import next_unentered_game
-from .models import League, Membership, Player, Season, Team
+from .models import Game, League, Membership, Player, Season, Team
 
 User = get_user_model()
 
@@ -322,10 +322,14 @@ def _members_page(request, link_errors=None):
     league = request.league
     memberships = league.memberships.select_related("user", "player").order_by("user__username")
     linked = {m.player_id: m.user.get_username() for m in memberships if m.player_id}
+    commissioner_count = sum(1 for m in memberships if m.is_commissioner)
     rows = [
         {
             "membership": m,
             "can_reset": m.user != request.user and policy.can_generate_reset_link(request.user, m.user),
+            # The last commissioner can't give up the role (the league always keeps one).
+            "can_unmake": m.is_commissioner and commissioner_count > 1,
+            "is_me": m.user_id == request.user.pk,
             "error": (link_errors or {}).get(m.user_id),
         }
         for m in memberships
@@ -390,7 +394,7 @@ def member_remove(request, league_id, user_id):
     membership = _member(request, user_id)
     if membership.is_commissioner:
         # Removing a commissioner could leave the league with nobody to run it.
-        messages.error(request, "A commissioner can't be removed from their league.")
+        messages.error(request, "A commissioner can't be removed. Remove their commissioner role first.")
         return redirect("leagues:members", request.league.pk)
     if request.method == "POST":
         name = membership.user.get_username()
@@ -437,3 +441,82 @@ def invite_reissue(request, league_id, invite_id):
         description=f"Send this to {name} to join {request.league.name}. The old link no longer works.",
         back_url=reverse("leagues:members", args=[request.league.pk]),
     )
+
+
+# --- League settings, deleting a league, and commissioners -----------------------------
+
+
+@league_view
+def league_settings(request, league_id):
+    """Rename the league; links to deleting it."""
+    require(policy.can_manage_league(request.user, request.league))
+    form = LeagueForm(request.POST or None, instance=request.league)
+    if request.method == "POST" and form.is_valid():
+        league = form.save()
+        messages.success(request, f"Renamed the league to {league.name}.")
+        return redirect("leagues:league_settings", league.pk)
+    return render(request, "leagues/league_settings.html", {"form": form})
+
+
+@league_view
+def league_delete(request, league_id):
+    """Delete the league and everything in it, after the commissioner types its name.
+
+    Accounts stay: members may belong to other leagues.
+    """
+    league = request.league
+    require(policy.can_manage_league(request.user, league))
+    error = None
+    if request.method == "POST":
+        if request.POST.get("confirm_name", "") == league.name:
+            name = league.name
+            league.delete()
+            messages.success(request, f"Deleted {name} and everything in it.")
+            return redirect("leagues:home")
+        error = "Type the league name exactly as shown to confirm."
+    counts = [
+        _plural(league.teams.count(), "team"),
+        _plural(Season.objects.filter(team__league=league).count(), "season"),
+        _plural(Game.objects.filter(season__team__league=league).count(), "game"),
+        _plural(league.players.count(), "player"),
+        _plural(StatLine.objects.filter(player__league=league).count(), "stat line"),
+        _plural(league.memberships.count(), "member"),
+    ]
+    return render(request, "leagues/league_delete.html", {"counts": counts, "error": error})
+
+
+@league_view
+@require_POST
+def member_make_commissioner(request, league_id, user_id):
+    """Give a member the same powers as the commissioner (co-commissioner)."""
+    require(policy.can_manage_league(request.user, request.league))
+    membership = _member(request, user_id)
+    if not membership.is_commissioner:
+        membership.is_commissioner = True
+        membership.save()
+        messages.success(request, f"{membership.user.get_username()} is now a commissioner.")
+    return redirect("leagues:members", request.league.pk)
+
+
+@league_view
+@require_POST
+def member_remove_commissioner(request, league_id, user_id):
+    """Take away a member's commissioner role, or step down yourself. A league always keeps one."""
+    require(policy.can_manage_league(request.user, request.league))
+    with transaction.atomic():
+        membership = _member(request, user_id)
+        commissioners = request.league.memberships.filter(is_commissioner=True)
+        if membership.is_commissioner and commissioners.count() <= 1:
+            messages.error(
+                request,
+                f"{membership.user.get_username()} is the last commissioner. "
+                "Make someone else a commissioner first.",
+            )
+            return redirect("leagues:members", request.league.pk)
+        membership.is_commissioner = False
+        membership.save()
+    if membership.user_id == request.user.pk:
+        messages.success(request, f"You stepped down as commissioner of {request.league.name}.")
+        return redirect("leagues:league_home", request.league.pk)
+    messages.success(request, f"{membership.user.get_username()} is no longer a commissioner.")
+    return redirect("leagues:members", request.league.pk)

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}League settings · {{ league.name }}{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>League settings</h1>
+  <form method="post">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Rename league</button>
+  </form>
+</section>
+<section class="card narrow">
+  <h2>Delete this league</h2>
+  <p>Deletes the league and everything in it for every member. Accounts stay, so members keep their other leagues.</p>
+  <p><a class="button button--secondary" href="{% url 'leagues:league_delete' league.pk %}">Delete {{ league.name }}</a></p>
+</section>
+{% endblock %}

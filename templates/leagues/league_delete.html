@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Delete {{ league.name }} · Madden League Tracker{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Delete {{ league.name }}?</h1>
+  <p>This permanently deletes the league for every member, including:</p>
+  <ul>
+    {% for count in counts %}<li>{{ count }}</li>{% endfor %}
+  </ul>
+  <p>It can't be undone. Accounts stay, so members keep any other leagues they belong to.</p>
+  <p>Want a copy first? <a href="{% url 'importer:export' league.pk %}">Export the league to a file</a>.</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="field">
+      <label for="id_confirm_name">Type <strong>{{ league.name }}</strong> to confirm</label>
+      <input type="text" name="confirm_name" id="id_confirm_name" autocomplete="off" required>
+      {% if error %}<p class="field__error" role="alert">{{ error }}</p>{% endif %}
+    </div>
+    <button type="submit">Delete league and everything in it</button>
+    <a href="{% url 'leagues:league_settings' league.pk %}">Cancel</a>
+  </form>
+</section>
+{% endblock %}

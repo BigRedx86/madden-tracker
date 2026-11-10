@@ -2,7 +2,8 @@
 {% block title %}Members · {{ league.name }}{% endblock %}
 {% block content %}
 <h1>Members</h1>
-<p><a class="button" href="{% url 'accounts:invite_create' league.pk %}">Invite someone</a></p>
+<p><a class="button" href="{% url 'accounts:invite_create' league.pk %}">Invite someone</a> <a href="{% url 'leagues:league_settings' league.pk %}">League settings</a></p>
+<p class="muted">Commissioners all have the same powers. To hand off the league, make someone else a commissioner, then step down.</p>
 
 <ul class="card-list">
   {% for row in rows %}{% with m=row.membership %}
@@ -30,7 +31,20 @@
       </form>
       {% endif %}
       {% if row.can_reset %}<a class="button button--secondary" href="{% url 'accounts:member_reset_link' league.pk m.user_id %}">Reset link for {{ m.user.username }}</a>{% endif %}
-      {% if not m.is_commissioner %}<a class="button button--secondary" href="{% url 'leagues:member_remove' league.pk m.user_id %}">Remove {{ m.user.username }}</a>{% endif %}
+      {% if m.is_commissioner %}
+      {% if row.can_unmake %}
+      <form method="post" action="{% url 'leagues:member_remove_commissioner' league.pk m.user_id %}">
+        {% csrf_token %}
+        <button type="submit" class="button--secondary">{% if row.is_me %}Step down as commissioner{% else %}Remove {{ m.user.username }}'s commissioner role{% endif %}</button>
+      </form>
+      {% endif %}
+      {% else %}
+      <form method="post" action="{% url 'leagues:member_make_commissioner' league.pk m.user_id %}">
+        {% csrf_token %}
+        <button type="submit" class="button--secondary">Make {{ m.user.username }} a commissioner</button>
+      </form>
+      <a class="button button--secondary" href="{% url 'leagues:member_remove' league.pk m.user_id %}">Remove {{ m.user.username }}</a>
+      {% endif %}
     </div>
   </li>
   {% endwith %}{% endfor %}

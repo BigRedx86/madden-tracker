@@ -1,14 +1,28 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}{% if game %}Edit {{ game }}{% else %}Add game{% endif %} · {{ league.name }}{% endblock %}
 {% block content %}
-<section class="card narrow">
+<section class="card{% if not entries %} narrow{% endif %}">
   <h1>{% if game %}Edit {{ game }}{% else %}Add a game to {{ season.name }}{% endif %}</h1>
   <p class="muted">Enter both scores and the result (W, L, or T) comes from them. If a score is unknown, leave it blank and pick the result yourself.</p>
   <form method="post">
     {% csrf_token %}
     {% include "accounts/_fields.html" %}
-    <button type="submit">Save game</button>
+    {% if entries %}
+    <h2>Player stats <span class="muted">(optional)</span></h2>
+    <p class="field__help">Open a player to enter their line now. Anyone you leave closed or blank gets no line, and can enter their own later.</p>
+    {% for entry in entries %}
+    {% with form=entry.form player=entry.player main_groups=entry.main_groups extra_groups=entry.extra_groups show_all=entry.show_all stats_disabled=entry.stats_disabled %}
+    <details class="player-entry" data-dnp-scope{% if entry.open %} open{% endif %}>
+      <summary>{{ player.name }} <span class="muted">· {{ player.primary_position }}{% if player.secondary_position %}/{{ player.secondary_position }}{% endif %}</span>{% if form.errors %} <span class="field__error">· needs a fix</span>{% endif %}</summary>
+      {% include "stats/_stat_sections.html" %}
+    </details>
+    {% endwith %}
+    {% endfor %}
+    {% endif %}
+    <button type="submit"{% if entries %} class="button--wide"{% endif %}>Save game</button>
     <a href="{% url 'leagues:season' league.pk season.pk %}">Cancel</a>
   </form>
 </section>
 {% endblock %}
+{% block scripts %}{% if entries %}<script src="{% static 'js/entry.js' %}" defer></script>{% endif %}{% endblock %}

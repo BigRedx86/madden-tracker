@@ -8,7 +8,6 @@ from leagues.access import get_in_league, league_view, require
 from leagues.game_views import season_url
 from leagues.models import Game, Player
 
-from . import catalog
 from .forms import StatLineForm
 from .models import StatLine
 
@@ -30,18 +29,5 @@ def stat_line_edit(request, league_id, game_id, player_id):
         # Back to the game list, where the next game to enter is highlighted.
         return redirect(season_url(game.season, player))
 
-    shown = catalog.categories_for_positions(player.primary_position, player.secondary_position)
-    extra = [key for key in catalog.CATEGORY_KEYS if key not in shown]
-    return render(
-        request,
-        "stats/entry.html",
-        {
-            "game": game,
-            "player": player,
-            "form": form,
-            "main_groups": form.groups(shown),
-            "extra_groups": form.groups(extra),
-            "show_all": request.GET.get("all") == "1" or form.has_values_in(extra),
-            "stats_disabled": bool(form.initial.get("did_not_play")) and not form.is_bound,
-        },
-    )
+    context = form.sections(player, show_all=request.GET.get("all") == "1")
+    return render(request, "stats/entry.html", dict(context, game=game))

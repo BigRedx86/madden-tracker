@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Teams · {{ league.name }}{% endblock %}
+{% block content %}
+<h1>Teams</h1>
+<section class="card">
+  {% if teams %}
+  <ul>
+    {% for team in teams %}
+    <li>{{ team.name }}{% if form %} · <a href="{% url 'leagues:team_edit' league.pk team.pk %}">Rename {{ team.name }}</a>{% endif %}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">No teams yet.</p>
+  {% endif %}
+  <p><a href="{% url 'leagues:seasons' league.pk %}">Seasons</a></p>
+</section>
+{% if form %}
+<section class="card narrow">
+  <h2>Add a team</h2>
+  <form method="post">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Add team</button>
+  </form>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,304 @@
+/* Madden League Tracker: dark, mobile-first, card layout.
+   Contrast: text #e8edf4 and muted #a9b4c2 on #0f141b / #18202b meet WCAG AA. */
+
+:root {
+  --bg: #0f141b;
+  --surface: #18202b;
+  --surface-raised: #212b38;
+  --border: #2f3b4a;
+  --text: #e8edf4;
+  --text-muted: #a9b4c2;
+  --accent: #5cb8ff;
+  --accent-text: #0b1520;
+  --win: #4cd08a;
+  --loss: #ff7a7a;
+  --warn: #ffc857;
+  --focus: #ffd166;
+  --radius: 12px;
+  --tap: 44px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+a { color: var(--accent); }
+
+/* Visible focus for every interactive element. */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  padding: 0.75rem 1rem;
+  background: var(--accent);
+  color: var(--accent-text);
+}
+.skip-link:focus { left: 0.5rem; z-index: 10; }
+
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.site-header__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+.site-title { font-weight: 700; font-size: 1.125rem; }
+
+.league-nav ul,
+.league-switcher ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.league-nav ul {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  padding: 0 0.5rem;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+.league-nav a,
+.league-switcher a,
+.league-switcher summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  min-width: var(--tap);
+  padding: 0 0.75rem;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.league-nav a:hover,
+.league-switcher a:hover { background: var(--surface-raised); }
+.league-nav a[aria-current="page"],
+.league-switcher a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.league-switcher { position: relative; }
+.league-switcher ul {
+  position: absolute;
+  right: 0;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.25rem;
+  z-index: 5;
+}
+
+.page {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.card h2 { margin-top: 0; font-size: 1.125rem; }
+
+/* Forms: every control has a visible label above it. */
+label { display: block; font-weight: 600; margin-bottom: 0.25rem; }
+input, select, textarea {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0.5rem 0.75rem;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}
+input[type="checkbox"], input[type="radio"] {
+  width: 1.5rem;
+  min-height: 1.5rem;
+  height: 1.5rem;
+}
+.field { margin-bottom: 1rem; }
+.field__help { color: var(--text-muted); font-size: 0.875rem; }
+.field__error { color: var(--loss); font-size: 0.875rem; }
+
+button, .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap);
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.button--secondary {
+  background: var(--surface-raised);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* Results and conflicts always carry a text label as well as color. */
+.result { font-weight: 700; }
+.result--w { color: var(--win); }
+.result--l { color: var(--loss); }
+.result--t { color: var(--text-muted); }
+.conflict {
+  border-left: 4px solid var(--warn);
+  padding-left: 0.75rem;
+}
+
+.messages { list-style: none; padding: 0; margin: 0 0 1rem; }
+.message {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+.message--error { border-color: var(--loss); }
+
+.muted { color: var(--text-muted); }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid var(--border); }
+.table-scroll { overflow-x: auto; }
+
+.narrow { max-width: 28rem; margin-left: auto; margin-right: auto; }
+.notice { color: var(--warn); font-weight: 600; }
+
+.account-nav { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+.account-nav a { display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 0.5rem; }
+.account-nav form { margin: 0; }
+
+/* The QR code must stay dark-on-light for phone cameras, even in the dark theme. */
+.qr { background: #fff; padding: 0.75rem; border-radius: 8px; width: fit-content; margin: 0 auto 1rem; }
+.qr svg { display: block; width: 14rem; max-width: 100%; height: auto; }
+
+.actions form { display: inline-block; margin: 0 0.25rem 0.25rem 0; }
+
+@media (min-width: 40rem) {
+  .page { padding: 1.5rem; }
+}
+
+/* --- Leagues, roster, seasons, games, stat entry (U5, U6) --- */
+a.site-title { color: var(--text); text-decoration: none; }
+.card-list { list-style: none; margin: 0; padding: 0; }
+.card-list > li + li { margin-top: 0.5rem; }
+.badge {
+  display: inline-block;
+  padding: 0 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  vertical-align: middle;
+}
+.badge--retired { color: var(--warn); border-color: var(--warn); }
+.checklist { padding-left: 1.25rem; }
+.checklist li { min-height: var(--tap); display: list-item; line-height: var(--tap); }
+.done { color: var(--win); font-weight: 600; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-end; }
+.toolbar .field { flex: 1 1 12rem; margin-bottom: 0; }
+.game-list { list-style: none; margin: 0; padding: 0; }
+.game-list > li + li { margin-top: 0.5rem; }
+.game h2 { margin-bottom: 0.25rem; }
+.game--next { border: 2px solid var(--warn); }
+.game--next .notice { margin: 0 0 0.25rem; }
+.status { font-weight: 600; }
+.status--entered { color: var(--win); }
+.status--dnp { color: var(--text-muted); }
+.status--missing { color: var(--warn); }
+.status-list { list-style: none; margin: 0; padding: 0; }
+.status-list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  min-height: var(--tap);
+  border-bottom: 1px solid var(--border);
+}
+.status-list li > span:first-child { flex: 1 1 8rem; font-weight: 600; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.25rem 0.5rem; align-items: center; }
+.actions form { margin: 0; }
+.inline-form { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: flex-end; }
+.inline-form .field { flex: 1 1 12rem; margin-bottom: 0; }
+
+/* Stat entry: one column on phones, two from tablet width; no horizontal scroll. */
+.field--check { display: flex; align-items: center; gap: 0.75rem; min-height: var(--tap); }
+.field--check label { margin: 0; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.stat-group { margin-bottom: 1rem; }
+.stat-group legend { font-weight: 700; font-size: 1.0625rem; margin-bottom: 0.5rem; }
+.stat-group { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 0.75rem; }
+.stat-group legend { grid-column: 1 / -1; }
+.stat-field label { font-size: 0.875rem; }
+.stat-fields[disabled] { opacity: 0.5; }
+.extra-categories { margin-bottom: 1rem; }
+.extra-categories summary { min-height: var(--tap); display: flex; align-items: center; cursor: pointer; color: var(--accent); font-weight: 600; }
+.button--wide { width: 100%; }
+@media (min-width: 40rem) {
+  .stat-group { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* --- Profile, comparison, team season (U7) ---
+   Wide stat tables scroll sideways inside their own container on phones, with
+   the first (player, season, or game) column pinned, so the page never scrolls sideways. */
+.card h3 { font-size: 1rem; margin: 1rem 0 0.5rem; }
+.stat-table th, .stat-table td { white-space: nowrap; }
+.stat-table td { text-align: right; font-variant-numeric: tabular-nums; }
+.stat-table thead th:not(:first-child) { text-align: right; }
+.table-scroll--pinned { -webkit-overflow-scrolling: touch; }
+.table-scroll--pinned tr > :first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--surface);
+  box-shadow: 1px 0 0 var(--border);
+}
+.stat-table .group-row th {
+  background: var(--surface-raised);
+  font-weight: 700;
+}
+.per-game { display: block; color: var(--text-muted); font-size: 0.8125rem; }
+.bio, .stat-pairs { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1rem; }
+.bio dt, .stat-pairs dt { color: var(--text-muted); font-size: 0.875rem; }
+.bio dd, .stat-pairs dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.stat-pairs .per-game { display: inline; font-weight: 400; }
+.check-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 0 1rem; }
+.check-grid label { font-weight: 400; overflow-wrap: anywhere; }
+.compare-card h4 { margin: 0.75rem 0 0.25rem; font-size: 0.9375rem; }
+
+/* Comparison: one stacked card per player on phones, one column per player from tablet width. */
+.compare-table { display: none; }
+@media (min-width: 40rem) {
+  .compare-table { display: block; }
+  .compare-cards { display: none; }
+  .bio { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

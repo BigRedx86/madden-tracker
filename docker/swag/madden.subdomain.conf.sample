@@ -1,0 +1,36 @@
+## Madden League Tracker, based on SWAG's standard *.subdomain.conf.sample.
+# Copy to /config/nginx/proxy-confs/madden.subdomain.conf in the SWAG appdata
+# folder and restart SWAG.
+#
+# Make sure that:
+# - the app container is named madden-tracker,
+# - it is on the same custom Docker network as SWAG (no host port mapping needed),
+# - your DNS has a record for madden.<your domain>, and the subdomain is in
+#   SWAG's SUBDOMAINS (or you use a wildcard certificate).
+#
+# HTTP is redirected to HTTPS by SWAG's default site. proxy.conf sets
+# X-Forwarded-For (with $proxy_add_x_forwarded_for, so SWAG's view of the
+# client is the rightmost entry), X-Forwarded-Proto, and X-Real-IP. The app
+# trusts exactly this one hop for the client IP (lockout) and for HTTPS
+# detection (secure cookies, redirects), so keep those includes.
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    server_name madden.*;
+
+    include /config/nginx/ssl.conf;
+
+    # Room for legacy backup and league export uploads.
+    client_max_body_size 10m;
+
+    location / {
+        include /config/nginx/proxy.conf;
+        include /config/nginx/resolver.conf;
+        set $upstream_app madden-tracker;
+        set $upstream_port 8000;
+        set $upstream_proto http;
+        proxy_pass $upstream_proto://$upstream_app:$upstream_port;
+    }
+}

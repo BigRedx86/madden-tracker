@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Reset link · {{ league.name }}{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Password reset link for {{ target.username }}</h1>
+  <p>The link lets whoever has it set a new password for {{ target.username }}. It works once, for 24 hours. Any earlier link for them stops working.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Create reset link</button>
+  </form>
+</section>
+{% endblock %}

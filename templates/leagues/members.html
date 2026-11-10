@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Members · {{ league.name }}{% endblock %}
+{% block content %}
+<h1>Members</h1>
+<p><a class="button" href="{% url 'accounts:invite_create' league.pk %}">Invite someone</a></p>
+
+<ul class="card-list">
+  {% for row in rows %}{% with m=row.membership %}
+  <li class="card">
+    <h2>{{ m.user.first_name|default:m.user.username }} <span class="muted">({{ m.user.username }})</span>{% if m.is_commissioner %} <span class="badge">Commissioner</span>{% endif %}</h2>
+    <p>Player: {% if m.player %}{{ m.player.name }}{% else %}<span class="muted">not linked</span>{% endif %}</p>
+    <form method="post" action="{% url 'leagues:member_link' league.pk m.user_id %}" class="inline-form">
+      {% csrf_token %}
+      <div class="field">
+        <label for="link-{{ m.user_id }}">Link {{ m.user.username }} to</label>
+        <select id="link-{{ m.user_id }}" name="player">
+          {% for item in players %}
+          <option value="{{ item.player.pk }}"{% if item.player.pk == m.player_id %} selected{% endif %}>{{ item.player.name }}{% if item.linked_to and item.player.pk != m.player_id %} (linked to {{ item.linked_to }}){% endif %}</option>
+          {% endfor %}
+        </select>
+        {% if row.error %}<p class="field__error" role="alert">{{ row.error }}</p>{% endif %}
+      </div>
+      <button type="submit" class="button--secondary">Link</button>
+    </form>
+    <div class="actions">
+      {% if m.player %}
+      <form method="post" action="{% url 'leagues:member_unlink' league.pk m.user_id %}">
+        {% csrf_token %}
+        <button type="submit" class="button--secondary">Unlink {{ m.user.username }}</button>
+      </form>
+      {% endif %}
+      {% if row.can_reset %}<a class="button button--secondary" href="{% url 'accounts:member_reset_link' league.pk m.user_id %}">Reset link for {{ m.user.username }}</a>{% endif %}
+      {% if not m.is_commissioner %}<a class="button button--secondary" href="{% url 'leagues:member_remove' league.pk m.user_id %}">Remove {{ m.user.username }}</a>{% endif %}
+    </div>
+  </li>
+  {% endwith %}{% endfor %}
+</ul>
+
+<section class="card">
+  <h2>Pending invites</h2>
+  {% if invites %}
+  <ul class="card-list">
+    {% for invite in invites %}
+    <li>
+      <p><strong>{{ invite.invitee_name|default:"Unnamed invite" }}</strong> · created by {{ invite.created_by.username|default:"a removed user" }} · expires {{ invite.expires_at }}</p>
+      <div class="actions">
+        <form method="post" action="{% url 'leagues:invite_revoke' league.pk invite.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="button--secondary">Revoke invite for {{ invite.invitee_name|default:"unnamed" }}</button>
+        </form>
+        <form method="post" action="{% url 'leagues:invite_reissue' league.pk invite.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="button--secondary">Reissue invite for {{ invite.invitee_name|default:"unnamed" }}</button>
+        </form>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">No pending invites.</p>
+  {% endif %}
+</section>
+{% endblock %}

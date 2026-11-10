@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Compare players · {{ league.name }}{% endblock %}
+{% block content %}
+<h1>Compare players</h1>
+<form method="get" class="card">
+  <fieldset class="field">
+    <legend>Players</legend>
+    <div class="check-grid">
+      {% for p in players %}
+      <div class="field--check">
+        <input type="checkbox" id="compare-{{ p.pk }}" name="players" value="{{ p.pk }}"{% if p.pk in picked_ids %} checked{% endif %}>
+        <label for="compare-{{ p.pk }}">{{ p.name }}</label>
+      </div>
+      {% endfor %}
+    </div>
+  </fieldset>
+  <div class="field">
+    <label for="compare-scope">Stats for</label>
+    <select id="compare-scope" name="scope">
+      <option value="career"{% if not season %} selected{% endif %}>Career</option>
+      {% for s in seasons %}<option value="{{ s.pk }}"{% if s == season %} selected{% endif %}>{{ s.team.name }} {{ s.name }}</option>{% endfor %}
+    </select>
+  </div>
+  <button type="submit">Compare</button>
+</form>
+
+{% if need_more %}<p class="card notice" role="alert">Pick at least two players to compare.</p>{% endif %}
+
+{% if compared %}
+<h2>{% if season %}{{ season.team.name }} {{ season.name }}{% else %}Career{% endif %}</h2>
+<p class="muted">Totals, with per-game averages over games played. A dash means no data.</p>
+
+<div class="compare-table table-scroll table-scroll--pinned">
+  <table class="stat-table">
+    <thead><tr><th scope="col">Stat</th>{% for p in compared %}<th scope="col"><a href="{% url 'stats:profile' league.pk p.pk %}">{{ p.name }}</a></th>{% endfor %}</tr></thead>
+    <tbody>
+      <tr><th scope="row">Games played</th>{% for gp in games_played %}<td>{{ gp }}</td>{% endfor %}</tr>
+      {% for group in table %}
+      <tr class="group-row"><th scope="colgroup" colspan="{{ compared|length|add:1 }}">{{ group.label }}</th></tr>
+      {% for row in group.rows %}
+      <tr>
+        <th scope="row">{{ row.label }}</th>{% for c in row.cells %}<td>{{ c.total }}{% if c.average %}<span class="per-game">{{ c.average }}/g</span>{% endif %}</td>{% endfor %}
+      </tr>
+      {% endfor %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="compare-cards">
+  {% for card in cards %}
+  <section class="card compare-card">
+    <h3><a href="{% url 'stats:profile' league.pk card.player.pk %}">{{ card.player.name }}</a></h3>
+    <p>{{ card.games_played }} game{{ card.games_played|pluralize }} played</p>
+    {% for group in card.groups %}
+    <h4>{{ group.label }}</h4>
+    <dl class="stat-pairs">
+      {% for row in group.rows %}<div><dt>{{ row.label }}</dt><dd>{{ row.total }}{% if row.average %} <span class="per-game">{{ row.average }}/g</span>{% endif %}</dd></div>{% endfor %}
+    </dl>
+    {% endfor %}
+  </section>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

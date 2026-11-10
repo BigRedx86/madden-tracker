@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}{{ season.name }} · {{ league.name }}{% endblock %}
+{% block content %}
+<h1>{{ season.team.name }} · {{ season.name }}</h1>
+<p><a href="{% url 'stats:team_season' league.pk season.pk %}">Record and stat leaders</a></p>
+{% if can_manage %}
+<p class="actions">
+  <a class="button" href="{% url 'leagues:game_create' league.pk season.pk %}">Add game</a>
+  <a class="button button--secondary" href="{% url 'leagues:season_edit' league.pk season.pk %}">Edit season</a>
+</p>
+{% if players %}
+<form method="get" class="card toolbar">
+  <div class="field">
+    <label for="focus-player">Show entry status for</label>
+    <select id="focus-player" name="player">
+      <option value="">Nobody</option>
+      {% for p in players %}<option value="{{ p.pk }}"{% if p == focus %} selected{% endif %}>{{ p.name }}</option>{% endfor %}
+    </select>
+  </div>
+  <button type="submit" class="button--secondary">Show</button>
+</form>
+{% endif %}
+{% elif is_unlinked_member %}
+<p class="card">Ask your commissioner to link you to a player.</p>
+{% endif %}
+
+{% if rows %}
+{% if focus %}<p>Entry status for <strong>{{ focus.name }}</strong>.</p>{% endif %}
+<ul class="game-list">
+  {% for row in rows %}{% with game=row.game %}
+  <li class="card game{% if row.is_next %} game--next{% endif %}">
+    {% if row.is_next %}<p class="notice">Next to enter</p>{% endif %}
+    <h2><a href="{% url 'leagues:game' league.pk game.pk %}">Week {{ game.order }} vs {{ game.opponent }}</a></h2>
+    <p>{% include "leagues/_result.html" %}</p>
+    {% if focus %}
+    <p>
+      {% if row.status == "entered" %}<span class="status status--entered">Entered</span>
+      {% elif row.status == "dnp" %}<span class="status status--dnp">DNP</span>
+      {% else %}<span class="status status--missing">Missing</span>{% endif %}
+      {% if row.can_enter %} · <a href="{% url 'leagues:stat_line' league.pk game.pk focus.pk %}">{% if row.status == "missing" %}Enter {{ focus.name }}'s stats{% else %}Edit {{ focus.name }}'s stats{% endif %}</a>{% endif %}
+    </p>
+    {% endif %}
+    {% if can_manage %}
+    <div class="actions">
+      <a class="button button--secondary" href="{% url 'leagues:game_edit' league.pk game.pk %}">Edit week {{ game.order }}</a>
+      {% if not forloop.first %}
+      <form method="post" action="{% url 'leagues:game_move' league.pk game.pk %}">
+        {% csrf_token %}<input type="hidden" name="direction" value="up">
+        <button type="submit" class="button--secondary">Move week {{ game.order }} up</button>
+      </form>
+      {% endif %}
+      {% if not forloop.last %}
+      <form method="post" action="{% url 'leagues:game_move' league.pk game.pk %}">
+        {% csrf_token %}<input type="hidden" name="direction" value="down">
+        <button type="submit" class="button--secondary">Move week {{ game.order }} down</button>
+      </form>
+      {% endif %}
+      <a class="button button--secondary" href="{% url 'leagues:game_delete' league.pk game.pk %}">Delete week {{ game.order }}</a>
+    </div>
+    {% endif %}
+  </li>
+  {% endwith %}{% endfor %}
+</ul>
+{% else %}
+<p class="card">No games yet.</p>
+{% endif %}
+{% if not can_manage %}
+<p class="muted">Only games the commissioner has added appear here. If your game isn't listed, it hasn't been added yet. Ask your commissioner to add it.</p>
+{% endif %}
+{% endblock %}

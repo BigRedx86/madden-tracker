@@ -1,0 +1,60 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>{% block title %}Madden League Tracker{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="site-header__bar">
+      <a class="site-title" href="{% url 'leagues:home' %}">{% if league %}{{ league.name }}{% else %}Madden League Tracker{% endif %}</a>
+      {% if user_leagues|length > 1 %}
+      <details class="league-switcher">
+        <summary>Switch league</summary>
+        <ul>
+          {% for other in user_leagues %}
+          <li><a href="{% url 'leagues:league_home' other.pk %}"{% if other.pk == league.pk %} aria-current="page"{% endif %}>{{ other.name }}</a></li>
+          {% endfor %}
+        </ul>
+      </details>
+      {% endif %}
+      {% if user.is_authenticated %}
+      <nav class="account-nav" aria-label="Account">
+        <a href="{% url 'accounts:account' %}">Account</a>
+        <form method="post" action="{% url 'accounts:logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="button--secondary">Sign out</button>
+        </form>
+      </nav>
+      {% endif %}
+    </div>
+    {% if league %}
+    {% with nav=request.resolver_match.url_name %}
+    <nav class="league-nav" aria-label="League">
+      <ul>
+        <li><a href="{% url 'leagues:league_home' league.pk %}"{% if nav == "league_home" %} aria-current="page"{% endif %}>Home</a></li>
+        <li><a href="{% url 'leagues:roster' league.pk %}"{% if nav == "roster" %} aria-current="page"{% endif %}>Roster</a></li>
+        <li><a href="{% url 'leagues:seasons' league.pk %}"{% if nav == "seasons" %} aria-current="page"{% endif %}>Seasons</a></li>
+        <li><a href="{% url 'stats:compare' league.pk %}"{% if nav == "compare" %} aria-current="page"{% endif %}>Compare</a></li>
+        {% if membership.is_commissioner %}<li><a href="{% url 'leagues:members' league.pk %}"{% if nav == "members" %} aria-current="page"{% endif %}>Members</a></li>{% endif %}
+      </ul>
+    </nav>
+    {% endwith %}
+    {% endif %}
+  </header>
+
+  <main id="main" class="page" tabindex="-1">
+    {% if messages %}
+    <ul class="messages" role="status">
+      {% for message in messages %}<li class="message message--{{ message.tags }}">{{ message }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

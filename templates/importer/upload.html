@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Import an old backup · {{ league.name }}{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Import an old backup</h1>
+  <p>Upload the JSON file exported from the old Madden Tracker. Nothing is saved until you've reviewed the merged schedule and confirmed it.</p>
+  <p>Have a league file exported from this site instead? <a href="{% url 'importer:native_import' %}">Import a league file</a> creates a new league from it.</p>
+  {% if draft %}
+  <p class="notice">You already have an import in progress ({{ draft.file_name|default:"uploaded file" }}). <a href="{% url 'importer:review' league.pk %}">Resume it</a>, or upload a new file to replace it.</p>
+  {% endif %}
+  {% if existing_players %}
+  <p class="notice">This league already has {{ existing_players }} player{{ existing_players|pluralize }}. An import adds the backup's players, seasons, and games as new records. It never merges them with what's here.</p>
+  {% endif %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Upload and review</button>
+  </form>
+</section>
+{% endblock %}

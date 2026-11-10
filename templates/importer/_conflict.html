@@ -1,0 +1,35 @@
+{# One conflict and its fixed choices (KTD7). Expects "card" from importer.views._card. #}
+{% with c=card.conflict %}
+<form method="post" action="{% url 'importer:resolve' league.pk %}" class="conflict" id="{{ c.id }}">
+  {% csrf_token %}
+  <input type="hidden" name="conflict" value="{{ c.id }}">
+  <fieldset>
+    <legend>{{ c.summary }}</legend>
+    {% if card.resolution %}<p class="done">Resolved. You can change it.</p>{% else %}<p class="notice">Needs your choice.{% if c.suggested %} The suggested option is preselected but not yet accepted.{% endif %}</p>{% endif %}
+    {% if c.details %}<ul>{% for detail in c.details %}<li>{{ detail }}</li>{% endfor %}</ul>{% endif %}
+    {% for choice in c.choices %}
+    <div class="field--check">
+      <input type="radio" name="choice" value="{{ choice.value }}" id="{{ c.id }}-{{ forloop.counter }}"{% if card.selected == choice.value %} checked{% endif %}>
+      <label for="{{ c.id }}-{{ forloop.counter }}">{{ choice.label }}{% if choice.value == c.suggested %} (suggested){% endif %}</label>
+    </div>
+    {% endfor %}
+    {% if c.custom == "score" %}
+    <div class="field--check">
+      <input type="radio" name="choice" value="custom" id="{{ c.id }}-custom"{% if card.selected == "custom" %} checked{% endif %}>
+      <label for="{{ c.id }}-custom">Type the score</label>
+    </div>
+    <div class="inline-form">
+      <div class="field"><label for="{{ c.id }}-team">{{ team_name }} score</label><input type="number" min="0" max="999" name="team_score" id="{{ c.id }}-team" value="{{ card.typed.team_score|default_if_none:'' }}"></div>
+      <div class="field"><label for="{{ c.id }}-opp">Opponent score</label><input type="number" min="0" max="999" name="opponent_score" id="{{ c.id }}-opp" value="{{ card.typed.opponent_score|default_if_none:'' }}"></div>
+    </div>
+    {% elif c.custom == "opponent" %}
+    <div class="field--check">
+      <input type="radio" name="choice" value="custom" id="{{ c.id }}-custom"{% if card.selected == "custom" %} checked{% endif %}>
+      <label for="{{ c.id }}-custom">Type the opponent</label>
+    </div>
+    <div class="field"><label for="{{ c.id }}-opponent">Opponent</label><input type="text" maxlength="100" name="opponent" id="{{ c.id }}-opponent" value="{{ card.typed.opponent|default:'' }}"></div>
+    {% endif %}
+    <button type="submit">{% if card.resolution %}Change choice{% else %}Save choice{% endif %}</button>
+  </fieldset>
+</form>
+{% endwith %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Seasons · {{ league.name }}{% endblock %}
+{% block content %}
+<h1>Seasons</h1>
+{% for team in teams %}
+<section class="card">
+  <h2>{{ team.name }}</h2>
+  {% if team.seasons.all %}
+  <ul>
+    {% for season in team.seasons.all %}
+    <li><a href="{% url 'leagues:season' league.pk season.pk %}">{{ season.name }}</a> · <a href="{% url 'stats:team_season' league.pk season.pk %}">{{ season.name }} stats</a>{% if can_manage %} · <a href="{% url 'leagues:season_edit' league.pk season.pk %}">Edit {{ season.name }}</a>{% endif %}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">No seasons yet.</p>
+  {% endif %}
+</section>
+{% empty %}
+<section class="card">
+  <p class="muted">No teams yet.{% if can_manage %} <a href="{% url 'leagues:teams' league.pk %}">Add a team</a> first.{% endif %}</p>
+</section>
+{% endfor %}
+{% if can_manage %}
+<p><a href="{% url 'leagues:teams' league.pk %}">Manage teams</a></p>
+{% if form %}
+<section class="card narrow">
+  <h2>Add a season</h2>
+  <form method="post">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Add season</button>
+  </form>
+</section>
+{% endif %}
+{% endif %}
+{% endblock %}

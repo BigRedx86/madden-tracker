@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Too many attempts · Madden League Tracker{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Sign-in locked</h1>
+  <p>Too many wrong passwords. Sign-in for this account is locked for 15 minutes from this device's address.</p>
+  <p><a href="{% url 'accounts:login' %}">Back to sign in</a></p>
+</section>
+{% endblock %}

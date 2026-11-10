@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ season.team.name }} {{ season.name }} stats · {{ league.name }}{% endblock %}
+{% block content %}
+<h1>{{ season.team.name }} · {{ season.name }}</h1>
+<p><a href="{% url 'leagues:season' league.pk season.pk %}">Season games and stat entry</a></p>
+
+<section class="card">
+  <h2>Schedule</h2>
+  <p>Record: {{ record.regular }}{% if record.playoff %} · Playoffs: {{ record.playoff }}{% endif %}</p>
+  {% if games %}
+  <ul class="game-list">
+    {% for game in games %}
+    <li class="game"><a href="{% url 'leagues:game' league.pk game.pk %}">Week {{ game.order }} vs {{ game.opponent }}</a> {% include "leagues/_result.html" %}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">No games yet.</p>
+  {% endif %}
+</section>
+
+<section class="card" id="leaders">
+  <h2>Leaders</h2>
+  {% for group in leaders %}
+  <h3>{{ group.label }}</h3>
+  <div class="table-scroll table-scroll--pinned">
+    <table class="stat-table">
+      <thead><tr><th scope="col">Stat</th><th scope="col">Leader</th><th scope="col">Total</th></tr></thead>
+      <tbody>
+        {% for row in group.rows %}
+        <tr>
+          <th scope="row">{{ row.label }}</th>
+          <td>{% for p in row.players %}<a href="{% url 'stats:profile' league.pk p.pk %}">{{ p.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+          <td>{{ row.value }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% empty %}
+  <p class="muted">No stats logged for this season yet.</p>
+  {% endfor %}
+</section>
+{% endblock %}

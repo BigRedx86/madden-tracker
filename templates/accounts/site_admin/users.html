@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Site admin · Madden League Tracker{% endblock %}
+{% block content %}
+<h1>Site admin</h1>
+
+{% include "accounts/site_admin/_backup_status.html" %}
+
+<section class="card">
+  <h2>Users</h2>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th scope="col">User</th><th scope="col">Status</th><th scope="col">2FA</th><th scope="col">Leagues</th><th scope="col">Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for account in users %}
+        <tr>
+          <td>{{ account.username }}{% if account.first_name %}<br><span class="muted">{{ account.first_name }}</span>{% endif %}{% if account.is_superuser %}<br><span class="muted">Site admin</span>{% endif %}</td>
+          <td>{% if account.is_active %}Active{% else %}Disabled{% endif %}</td>
+          <td>{% if account.has_2fa %}On{% else %}Off{% endif %}</td>
+          <td>{{ account.league_count }}</td>
+          <td class="actions">
+            <form method="post" action="{% url 'accounts:site_admin_toggle_active' account.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="button--secondary">{% if account.is_active %}Disable{% else %}Re-enable{% endif %} {{ account.username }}</button>
+            </form>
+            <form method="post" action="{% url 'accounts:site_admin_reset_link' account.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="button--secondary">Reset link for {{ account.username }}</button>
+            </form>
+            {% if account.has_2fa %}
+            <form method="post" action="{% url 'accounts:site_admin_reset_2fa' account.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="button--secondary">Turn off 2FA for {{ account.username }}</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Password reset log</h2>
+  {% if reset_log %}
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th scope="col">For</th><th scope="col">Created by</th><th scope="col">Created</th><th scope="col">Status</th><th scope="col">Used</th><th scope="col">Used from</th></tr>
+      </thead>
+      <tbody>
+        {% for reset in reset_log %}
+        <tr>
+          <td>{{ reset.user.username }}</td>
+          <td>{{ reset.created_by.username|default:"a removed user" }}</td>
+          <td>{{ reset.created_at }}</td>
+          <td>{{ reset.status }}</td>
+          <td>{{ reset.used_at|default:"" }}</td>
+          <td>{{ reset.used_ip|default:"" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="muted">No reset links yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

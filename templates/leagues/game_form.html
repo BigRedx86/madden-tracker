@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{% if game %}Edit {{ game }}{% else %}Add game{% endif %} · {{ league.name }}{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>{% if game %}Edit {{ game }}{% else %}Add a game to {{ season.name }}{% endif %}</h1>
+  <p class="muted">Enter both scores and the result (W, L, or T) comes from them. If a score is unknown, leave it blank and pick the result yourself.</p>
+  <form method="post">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Save game</button>
+    <a href="{% url 'leagues:season' league.pk season.pk %}">Cancel</a>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ game }} · {{ league.name }}{% endblock %}
+{% block content %}
+<h1>Week {{ game.order }} vs {{ game.opponent }}</h1>
+<p>{{ game.season.team.name }} · <a href="{% url 'leagues:season' league.pk game.season_id %}">{{ game.season.name }}</a> · {% include "leagues/_result.html" %}</p>
+{% if can_manage %}<p><a href="{% url 'leagues:game_edit' league.pk game.pk %}">Edit game</a></p>{% endif %}
+<section class="card">
+  <h2>Stat lines</h2>
+  <ul class="status-list">
+    {% for row in rows %}
+    <li>
+      <span>{{ row.player.name }}</span>
+      {% if row.status == "entered" %}<span class="status status--entered">Entered</span>
+      {% elif row.status == "dnp" %}<span class="status status--dnp">DNP</span>
+      {% else %}<span class="status status--missing">Missing</span>{% endif %}
+      {% if row.can_edit %}<a href="{% url 'leagues:stat_line' league.pk game.pk row.player.pk %}">{% if row.status == "missing" %}Enter{% else %}Edit{% endif %} {{ row.player.name }}</a>{% endif %}
+    </li>
+    {% empty %}
+    <li class="muted">No players yet.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

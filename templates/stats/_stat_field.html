@@ -1,0 +1,5 @@
+<div class="field stat-field">
+  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+  {{ field }}
+  {% for error in field.errors %}<p class="field__error">{{ error }}</p>{% endfor %}
+</div>

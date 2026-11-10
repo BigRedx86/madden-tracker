@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}{{ league.name }} · Madden League Tracker{% endblock %}
+{% block content %}
+<h1>{{ league.name }}</h1>
+
+{% if checklist %}
+<section class="card">
+  <h2>Set up your league</h2>
+  <ol class="checklist">
+    {% for label, done, url in checklist %}
+    <li>{% if done %}<span class="done">Done:</span> {{ label }}{% else %}<a href="{{ url }}">{{ label }}</a>{% endif %}</li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+<section class="card">
+  {% if player %}
+  <h2>My player</h2>
+  <p><strong><a href="{% url 'stats:profile' league.pk player.pk %}">{{ player.name }}</a></strong> · {{ player.primary_position }}{% if player.secondary_position %}/{{ player.secondary_position }}{% endif %}
+    · <a href="{% url 'leagues:player_edit' league.pk player.pk %}">Edit bio</a></p>
+  {% if next_game %}
+  <p>Next game to enter: <a class="button" href="{% url 'leagues:stat_line' league.pk next_game.pk player.pk %}">{{ next_game }}</a></p>
+  {% elif season and games %}
+  <p class="muted">You're all caught up for {{ season.name }}.</p>
+  {% endif %}
+  {% elif membership.is_commissioner %}
+  <p class="muted">You're not linked to a player. If you play too, link yourself on the <a href="{% url 'leagues:members' league.pk %}">Members</a> page.</p>
+  {% else %}
+  <p>Ask your commissioner to link you to a player.</p>
+  {% endif %}
+</section>
+
+{% if season %}
+<section class="card">
+  <h2>{{ season.team.name }} · {{ season.name }}</h2>
+  <p>Record: {{ record.regular.W }}-{{ record.regular.L }}{% if record.regular.T %}-{{ record.regular.T }}{% endif %}
+    {% if record.playoff.W or record.playoff.L or record.playoff.T %}· Playoffs: {{ record.playoff.W }}-{{ record.playoff.L }}{% if record.playoff.T %}-{{ record.playoff.T }}{% endif %}{% endif %}</p>
+  {% if games %}
+  <ul class="game-list">
+    {% for game in games %}
+    <li class="game"><a href="{% url 'leagues:game' league.pk game.pk %}">Week {{ game.order }} vs {{ game.opponent }}</a> {% include "leagues/_result.html" %}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No games yet.</p>
+  {% endif %}
+  <p><a href="{% url 'leagues:season' league.pk season.pk %}">Season games{% if can_manage_games %} and schedule{% endif %}</a></p>
+  {% if other_seasons %}
+  <p>Other seasons:
+    {% for other in other_seasons %}<a href="?season={{ other.pk }}">{{ other.team.name }} {{ other.name }}</a>{% if not forloop.last %} · {% endif %}{% endfor %}
+  </p>
+  {% endif %}
+</section>
+{% endif %}
+{# Legacy import entry point (U8). league.import_draft is the reverse one-to-one; missing means no draft. #}
+{% if membership.is_commissioner %}
+<section class="card">
+  {% if league.import_draft %}
+  <p class="notice">An import from an old backup is waiting for your review. <a class="button" href="{% url 'importer:review' league.pk %}">Resume import</a></p>
+  {% else %}
+  <p><a href="{% url 'importer:upload' league.pk %}">Import an old backup</a></p>
+  {% endif %}
+  <p><a href="{% url 'importer:export' league.pk %}">Export the league to a file</a></p>
+</section>
+{% endif %}
+{% endblock %}

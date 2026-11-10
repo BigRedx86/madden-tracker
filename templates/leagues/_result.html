@@ -1,0 +1,2 @@
+{# One game's result as text plus color (color is never the only signal). #}
+{% if game.result %}<span class="result result--{{ game.result|lower }}">{{ game.result }}</span>{% if game.has_scores %} {{ game.team_score }}-{{ game.opponent_score }}{% endif %}{% else %}<span class="muted">No result</span>{% endif %}{% if game.is_playoff %} <span class="badge">Playoff</span>{% endif %}

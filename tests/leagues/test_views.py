@@ -502,3 +502,10 @@ def test_delete_links_shown_to_the_commissioner_only(client, setup):
     client.force_login(setup["jordan"])
     assert "/delete/" not in client.get(url(setup, "seasons/")).content.decode()
     assert "/delete/" not in client.get(url(setup, f"players/{jordan.pk}/edit/")).content.decode()
+
+
+def test_header_new_league_link_shows_for_the_commissioner_only(client, setup):
+    client.force_login(setup["commissioner"])
+    assert 'href="/leagues/new/"' in client.get(url(setup)).content.decode()
+    client.force_login(setup["jordan"])
+    assert 'href="/leagues/new/"' not in client.get(url(setup)).content.decode()

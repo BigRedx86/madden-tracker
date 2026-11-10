@@ -24,6 +24,7 @@
       {% endif %}
       {% if user.is_authenticated %}
       <nav class="account-nav" aria-label="Account">
+        {% if membership.is_commissioner %}<a href="{% url 'leagues:league_create' %}">New league</a>{% endif %}
         <a href="{% url 'accounts:account' %}">Account</a>
         <form method="post" action="{% url 'accounts:logout' %}">
           {% csrf_token %}

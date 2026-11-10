@@ -9,7 +9,9 @@ The rules, from the plan's "Who can do what" table:
 | Edit player bio (R11)                    | No                      | Yes          | Yes                | No            |
 | Add or retire players, link members      | No                      | Yes          | No                 | No            |
 | Invite people (R2)                       | No                      | Yes          | No                 | No            |
-| Generate reset link (R4, KTD11)          | Anyone                  | Members whose every league they run, except site admins | No | No |
+| Generate reset link (R4, KTD11)          | Anyone                  | Members whose every league they run, except site admins and commissioners | No | No |
+| Rename or delete the league              | No                      | Yes          | No                 | No            |
+| Make or unmake commissioners             | No                      | Yes (a league always keeps one) | No | No |
 | Disable accounts (R6), reset 2FA (KTD10) | Yes                     | No           | No                 | No            |
 
 A site admin gets league rights only through a membership, like anyone else (KTD10).
@@ -88,6 +90,11 @@ def can_edit_player_bio(user, player):
     return _commissioner_or_linked(user, player)
 
 
+def can_manage_league(user, league):
+    """Rename or delete the league, and make or unmake its commissioners."""
+    return is_commissioner(user, league)
+
+
 def can_manage_accounts(user):
     """Disable or re-enable accounts and reset 2FA: site admin only."""
     return is_site_admin(user)
@@ -97,6 +104,10 @@ def can_generate_reset_link(actor, target):
     if is_site_admin(actor):
         return True
     if not actor.is_authenticated or target.is_superuser:
+        return False
+    if Membership.objects.filter(user=target, is_commissioner=True).exists():
+        # With co-commissioners, one commissioner could otherwise reset another and
+        # sign in as them. Commissioners' accounts are reset by the site admin only.
         return False
     target_leagues = set(Membership.objects.filter(user=target).values_list("league_id", flat=True))
     if not target_leagues:

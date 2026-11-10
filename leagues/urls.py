@@ -10,6 +10,8 @@ app_name = "leagues"
 
 league_patterns = [
     path("", views.league_home, name="league_home"),
+    path("settings/", views.league_settings, name="league_settings"),
+    path("delete/", views.league_delete, name="league_delete"),
     path("roster/", views.roster, name="roster"),
     path("players/new/", views.player_create, name="player_create"),
     path("players/<int:player_id>/edit/", views.player_edit, name="player_edit"),
@@ -31,6 +33,12 @@ league_patterns = [
     path("members/<int:user_id>/link/", views.member_link, name="member_link"),
     path("members/<int:user_id>/unlink/", views.member_unlink, name="member_unlink"),
     path("members/<int:user_id>/remove/", views.member_remove, name="member_remove"),
+    path("members/<int:user_id>/commissioner/", views.member_make_commissioner, name="member_make_commissioner"),
+    path(
+        "members/<int:user_id>/commissioner/remove/",
+        views.member_remove_commissioner,
+        name="member_remove_commissioner",
+    ),
     path("invites/<int:invite_id>/revoke/", views.invite_revoke, name="invite_revoke"),
     path("invites/<int:invite_id>/reissue/", views.invite_reissue, name="invite_reissue"),
 ]

@@ -509,3 +509,135 @@ def test_header_new_league_link_shows_for_the_commissioner_only(client, setup):
     assert 'href="/leagues/new/"' in client.get(url(setup)).content.decode()
     client.force_login(setup["jordan"])
     assert 'href="/leagues/new/"' not in client.get(url(setup)).content.decode()
+
+
+# --- League settings, deleting a league, and co-commissioners ----------------------------
+
+
+def make_commissioner(setup, user):
+    Membership.objects.filter(league=setup["league"], user=user).update(is_commissioner=True)
+
+
+def test_commissioner_renames_the_league(client, setup):
+    client.force_login(setup["commissioner"])
+    response = client.post(url(setup, "settings/"), {"name": "Lakeside Legends"})
+    assert response.status_code == 302
+    setup["league"].refresh_from_db()
+    assert setup["league"].name == "Lakeside Legends"
+
+
+def test_member_cannot_open_league_settings_or_delete(client, setup):
+    client.force_login(setup["jordan"])
+    for path in ("settings/", "delete/"):
+        assert client.get(url(setup, path)).status_code == 403
+        assert client.post(url(setup, path), {"name": "x", "confirm_name": "Lakeside"}).status_code == 403
+    assert League.objects.filter(pk=setup["league"].pk, name="Lakeside").exists()
+
+
+def test_delete_page_shows_what_goes_and_links_to_export(client, setup):
+    StatLine.objects.create(player=setup["players"]["Jordan"], game=setup["game"], values={"receptions": 3})
+    client.force_login(setup["commissioner"])
+    page = client.get(url(setup, "delete/")).content.decode()
+    for text in ("1 team", "1 season", "1 game", "3 players", "1 stat line", "3 members"):
+        assert text in page
+    assert f"/league/{setup['league'].pk}/export/" in page
+
+
+def test_deleting_a_league_needs_its_exact_name(client, setup):
+    client.force_login(setup["commissioner"])
+    response = client.post(url(setup, "delete/"), {"confirm_name": "lakeside "})
+    assert response.status_code == 200
+    assert "Type the league name exactly" in response.content.decode()
+    assert League.objects.filter(pk=setup["league"].pk).exists()
+
+
+def test_deleting_a_league_removes_everything_in_it_but_keeps_accounts(client, setup):
+    from django.contrib.auth import get_user_model
+
+    league = setup["league"]
+    StatLine.objects.create(player=setup["players"]["Jordan"], game=setup["game"], values={"receptions": 3})
+    tokens.create_invite(league, created_by=setup["commissioner"], invitee_name="Riley")
+    client.force_login(setup["commissioner"])
+    response = client.post(url(setup, "delete/"), {"confirm_name": "Lakeside"})
+    assert response.status_code == 302 and response.url == "/"
+    assert not League.objects.filter(pk=league.pk).exists()
+    assert not Team.objects.filter(league_id=league.pk).exists()
+    assert not Player.objects.filter(league_id=league.pk).exists()
+    assert not Membership.objects.filter(league_id=league.pk).exists()
+    assert not StatLine.objects.filter(game_id=setup["game"].pk).exists()
+    assert not AccountToken.objects.filter(league_id=league.pk).exists()
+    assert get_user_model().objects.filter(pk__in=[setup["commissioner"].pk, setup["jordan"].pk]).count() == 2
+
+
+def test_another_leagues_commissioner_cannot_delete_this_league(client, setup, make_league, make_user):
+    other_comm = make_user("othercomm")
+    make_league("Elsewhere", other_comm)
+    client.force_login(other_comm)
+    assert client.post(url(setup, "delete/"), {"confirm_name": "Lakeside"}).status_code == 404
+    assert League.objects.filter(pk=setup["league"].pk).exists()
+
+
+def test_commissioner_makes_a_member_a_co_commissioner(client, setup):
+    client.force_login(setup["commissioner"])
+    response = client.post(url(setup, f"members/{setup['jordan'].pk}/commissioner/"))
+    assert response.status_code == 302
+    assert Membership.objects.get(league=setup["league"], user=setup["jordan"]).is_commissioner
+    client.force_login(setup["jordan"])
+    assert client.get(url(setup, "members/")).status_code == 200
+
+
+def test_member_cannot_make_anyone_a_commissioner(client, setup):
+    client.force_login(setup["jordan"])
+    assert client.post(url(setup, f"members/{setup['jordan'].pk}/commissioner/")).status_code == 403
+    assert client.post(url(setup, f"members/{setup['blake'].pk}/commissioner/")).status_code == 403
+    assert not Membership.objects.filter(league=setup["league"], is_commissioner=True).exclude(
+        user=setup["commissioner"]
+    ).exists()
+
+
+def test_the_last_commissioner_cannot_step_down(client, setup):
+    comm = setup["commissioner"]
+    client.force_login(comm)
+    response = client.post(url(setup, f"members/{comm.pk}/commissioner/remove/"), follow=True)
+    assert "last commissioner" in response.content.decode()
+    assert Membership.objects.get(league=setup["league"], user=comm).is_commissioner
+
+
+def test_handing_off_make_another_commissioner_then_step_down(client, setup):
+    comm, jordan = setup["commissioner"], setup["jordan"]
+    client.force_login(comm)
+    client.post(url(setup, f"members/{jordan.pk}/commissioner/"))
+    response = client.post(url(setup, f"members/{comm.pk}/commissioner/remove/"))
+    assert response.status_code == 302 and response.url == url(setup)
+    assert not Membership.objects.get(league=setup["league"], user=comm).is_commissioner
+    assert Membership.objects.get(league=setup["league"], user=jordan).is_commissioner
+    assert client.get(url(setup, "members/")).status_code == 403
+
+
+def test_a_commissioner_can_remove_another_commissioners_role(client, setup):
+    make_commissioner(setup, setup["jordan"])
+    client.force_login(setup["commissioner"])
+    client.post(url(setup, f"members/{setup['jordan'].pk}/commissioner/remove/"))
+    assert not Membership.objects.get(league=setup["league"], user=setup["jordan"]).is_commissioner
+
+
+def test_a_commissioner_cannot_be_removed_until_their_role_is(client, setup):
+    make_commissioner(setup, setup["jordan"])
+    client.force_login(setup["commissioner"])
+    client.post(url(setup, f"members/{setup['jordan'].pk}/remove/"))
+    assert Membership.objects.filter(league=setup["league"], user=setup["jordan"]).exists()
+
+
+def test_commissioner_cannot_get_a_reset_link_for_a_co_commissioner(client, setup):
+    make_commissioner(setup, setup["jordan"])
+    client.force_login(setup["commissioner"])
+    assert client.post(url(setup, f"members/{setup['jordan'].pk}/reset-link/")).status_code == 403
+    assert client.post(url(setup, f"members/{setup['blake'].pk}/reset-link/")).status_code == 200
+
+
+def test_members_page_shows_commissioner_role_controls(client, setup):
+    client.force_login(setup["commissioner"])
+    page = client.get(url(setup, "members/")).content.decode()
+    assert f"members/{setup['jordan'].pk}/commissioner/" in page
+    assert f"members/{setup['commissioner'].pk}/commissioner/remove/" not in page
+    assert url(setup, "settings/") in page

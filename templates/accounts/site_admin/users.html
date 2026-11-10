@@ -34,6 +34,7 @@
               <button type="submit" class="button--secondary">Turn off 2FA for {{ account.username }}</button>
             </form>
             {% endif %}
+            {% if account.pk != user.pk %}<a class="button button--secondary" href="{% url 'accounts:site_admin_delete_user' account.pk %}">Delete {{ account.username }}</a>{% endif %}
           </td>
         </tr>
         {% endfor %}

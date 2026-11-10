@@ -25,4 +25,5 @@ urlpatterns = [
     path("site-admin/users/<int:user_id>/active/", admin_views.toggle_active_view, name="site_admin_toggle_active"),
     path("site-admin/users/<int:user_id>/reset-link/", admin_views.reset_link_view, name="site_admin_reset_link"),
     path("site-admin/users/<int:user_id>/reset-2fa/", admin_views.reset_2fa_view, name="site_admin_reset_2fa"),
+    path("site-admin/users/<int:user_id>/delete/", admin_views.delete_user_view, name="site_admin_delete_user"),
 ]

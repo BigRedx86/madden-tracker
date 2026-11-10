@@ -215,3 +215,7 @@ DJANGO_SECRET_KEY="$(python3 -c 'import secrets; print(secrets.token_urlsafe(64)
 ```
 
 Keep any virtual environment out of the Nextcloud folder if you don't want it synced. Never create a `.env` or other secrets file here, and never commit a legacy backup (`madden-player-tracker*.json`): it contains real names.
+
+## License
+
+Madden League Tracker is free software, released under the [GNU General Public License v3.0](LICENSE). To report a security problem, see [SECURITY.md](SECURITY.md).

@@ -16,7 +16,7 @@ from .models import StatLine
 def stat_line_edit(request, league_id, game_id, player_id):
     game = get_in_league(Game, request.league, pk=game_id)
     player = get_in_league(Player, request.league, pk=player_id)
-    require(policy.can_edit_stat_line(request.user, player))
+    require(policy.can_edit_stat_line(request.user, player, season=game.season))
     line = StatLine.objects.filter(player=player, game=game).first()
 
     form = StatLineForm(request.POST or None, line=line)

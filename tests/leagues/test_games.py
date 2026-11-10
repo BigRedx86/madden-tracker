@@ -243,3 +243,100 @@ def test_an_invalid_game_keeps_the_entered_stats_on_the_page(client, setup):
     page = response.content.decode()
     assert f'name="player-{players["Jordan"].pk}-receptions"' in page and 'value="7"' in page
     assert not Game.objects.filter(order=2).exists()
+
+
+# --- Locking a finished season ----------------------------------------------------------
+
+
+def lock(setup):
+    season = setup["season"]
+    season.is_locked = True
+    season.save()
+    return season
+
+
+def entry_url(setup, player_name):
+    return url(setup, f"games/{setup['game'].pk}/stats/{setup['players'][player_name].pk}/")
+
+
+def test_commissioner_locks_and_unlocks_a_season(client, setup):
+    season = setup["season"]
+    client.force_login(setup["commissioner"])
+    assert client.post(url(setup, f"seasons/{season.pk}/lock/"), {"locked": "1"}).status_code == 302
+    season.refresh_from_db()
+    assert season.is_locked
+    client.post(url(setup, f"seasons/{season.pk}/lock/"), {"locked": "0"})
+    season.refresh_from_db()
+    assert not season.is_locked
+
+
+def test_member_cannot_lock_or_unlock(client, setup):
+    season = lock(setup)
+    client.force_login(setup["jordan"])
+    assert client.post(url(setup, f"seasons/{season.pk}/lock/"), {"locked": "0"}).status_code == 403
+    season.refresh_from_db()
+    assert season.is_locked
+
+
+def test_member_cannot_enter_or_change_stats_in_a_locked_season(client, setup):
+    lock(setup)
+    StatLine.objects.create(player=setup["players"]["Jordan"], game=setup["game"], values={"receptions": 3})
+    client.force_login(setup["jordan"])
+    assert client.get(entry_url(setup, "Jordan")).status_code == 403
+    assert client.post(entry_url(setup, "Jordan"), {"receptions": "9"}).status_code == 403
+    assert StatLine.objects.get(player=setup["players"]["Jordan"]).values == {"receptions": 3}
+
+
+def test_commissioner_can_still_fix_stats_in_a_locked_season(client, setup):
+    lock(setup)
+    client.force_login(setup["commissioner"])
+    response = client.post(entry_url(setup, "Jordan"), {"receptions": "4"})
+    assert response.status_code == 302
+    assert StatLine.objects.get(player=setup["players"]["Jordan"]).values == {"receptions": 4}
+
+
+def test_unlocking_lets_members_edit_again(client, setup):
+    season = lock(setup)
+    season.is_locked = False
+    season.save()
+    client.force_login(setup["jordan"])
+    assert client.post(entry_url(setup, "Jordan"), {"receptions": "2"}).status_code == 302
+
+
+def test_locked_season_pages_show_it_and_hide_member_entry_links(client, setup):
+    season = lock(setup)
+    jordan = setup["players"]["Jordan"]
+    link = f"games/{setup['game'].pk}/stats/{jordan.pk}/"
+    client.force_login(setup["jordan"])
+    season_page = client.get(url(setup, f"seasons/{season.pk}/")).content.decode()
+    game_page = client.get(url(setup, f"games/{setup['game'].pk}/")).content.decode()
+    home = client.get(url(setup)).content.decode()
+    for page in (season_page, game_page, home):
+        assert "locked" in page.lower()
+        assert link not in page
+    client.force_login(setup["commissioner"])
+    assert link in client.get(url(setup, f"games/{setup['game'].pk}/")).content.decode()
+    assert f"seasons/{season.pk}/lock/" in client.get(url(setup, f"seasons/{season.pk}/")).content.decode()
+
+
+def test_export_and_import_keep_the_lock(client, setup, make_user):
+    import json
+
+    from leagues.models import Season
+
+    lock(setup)
+    client.force_login(setup["commissioner"])
+    data = json.loads(client.get(url(setup, "export/")).content)
+    assert data["seasons"][0]["locked"] is True
+    importer = make_user("importer")
+    client.force_login(importer)
+    for locked_key in (True, None):
+        doc = json.loads(json.dumps(data))
+        if locked_key is None:
+            del doc["seasons"][0]["locked"]
+        from django.core.files.uploadedfile import SimpleUploadedFile
+
+        upload = SimpleUploadedFile("league.json", json.dumps(doc).encode(), content_type="application/json")
+        client.post("/leagues/import/", {"league_file": upload})
+    imported = list(Season.objects.exclude(pk=setup["season"].pk).order_by("id"))
+    assert [s.is_locked for s in imported] == [True, False]

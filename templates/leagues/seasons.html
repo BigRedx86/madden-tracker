@@ -8,7 +8,7 @@
   {% if team.seasons.all %}
   <ul>
     {% for season in team.seasons.all %}
-    <li><a href="{% url 'leagues:season' league.pk season.pk %}">{{ season.name }}</a> · <a href="{% url 'stats:team_season' league.pk season.pk %}">{{ season.name }} stats</a>{% if can_manage %} · <a href="{% url 'leagues:season_edit' league.pk season.pk %}">Edit {{ season.name }}</a> · <a href="{% url 'leagues:season_delete' league.pk season.pk %}">Delete {{ season.name }}</a>{% endif %}</li>
+    <li><a href="{% url 'leagues:season' league.pk season.pk %}">{{ season.name }}</a>{% if season.is_locked %} <span class="badge">Locked</span>{% endif %} · <a href="{% url 'stats:team_season' league.pk season.pk %}">{{ season.name }} stats</a>{% if can_manage %} · <a href="{% url 'leagues:season_edit' league.pk season.pk %}">Edit {{ season.name }}</a> · <a href="{% url 'leagues:season_delete' league.pk season.pk %}">Delete {{ season.name }}</a>{% endif %}</li>
     {% endfor %}
   </ul>
   {% else %}

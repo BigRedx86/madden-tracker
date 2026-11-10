@@ -4,6 +4,7 @@
 <h1>Week {{ game.order }} vs {{ game.opponent }}</h1>
 <p>{{ game.season.team.name }} · <a href="{% url 'leagues:season' league.pk game.season_id %}">{{ game.season.name }}</a> · {% include "leagues/_result.html" %}</p>
 {% if can_manage %}<p><a href="{% url 'leagues:game_edit' league.pk game.pk %}">Edit game</a></p>{% endif %}
+{% if game.season.is_locked %}<p class="notice">{{ game.season.name }} is locked. {% if can_manage %}Only commissioners can change these stats.{% else %}These stats can't be changed.{% endif %}</p>{% endif %}
 <section class="card">
   <h2>Stat lines</h2>
   <ul class="status-list">

@@ -67,7 +67,10 @@ def league_home(request, league_id):
 
     games = list(season.games.all()) if season else []
     player = request.membership.player
-    next_game = next_unentered_game(player, games) if player and games else None
+    can_enter = bool(
+        player and season and policy.can_edit_stat_line(request.user, player, request.membership, season=season)
+    )
+    next_game = next_unentered_game(player, games) if can_enter and games else None
 
     checklist = None
     if policy.can_manage_seasons(request.user, league):
@@ -90,6 +93,7 @@ def league_home(request, league_id):
             "record": aggregate.record_counts(games),
             "player": player,
             "next_game": next_game,
+            "season_locked": bool(season and season.is_locked),
             "checklist": checklist,
             "can_manage_games": policy.can_manage_games(request.user, league),
         },

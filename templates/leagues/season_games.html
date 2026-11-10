@@ -1,13 +1,19 @@
 {% extends "base.html" %}
 {% block title %}{{ season.name }} · {{ league.name }}{% endblock %}
 {% block content %}
-<h1>{{ season.team.name }} · {{ season.name }}</h1>
+<h1>{{ season.team.name }} · {{ season.name }}{% if season.is_locked %} <span class="badge">Locked</span>{% endif %}</h1>
+{% if season.is_locked %}<p class="notice">This season is locked. {% if can_manage %}Only commissioners can change its stats.{% else %}Its stats can't be changed. Ask your commissioner if something needs fixing.{% endif %}</p>{% endif %}
 <p><a href="{% url 'stats:team_season' league.pk season.pk %}">Record and stat leaders</a></p>
 {% if can_manage %}
-<p class="actions">
+<div class="actions">
   <a class="button" href="{% url 'leagues:game_create' league.pk season.pk %}">Add game</a>
   <a class="button button--secondary" href="{% url 'leagues:season_edit' league.pk season.pk %}">Edit season</a>
-</p>
+  <form method="post" action="{% url 'leagues:season_lock' league.pk season.pk %}">
+    {% csrf_token %}
+    <input type="hidden" name="locked" value="{% if season.is_locked %}0{% else %}1{% endif %}">
+    <button type="submit" class="button--secondary">{% if season.is_locked %}Unlock season{% else %}Lock season{% endif %}</button>
+  </form>
+</div>
 {% if players %}
 <form method="get" class="card toolbar">
   <div class="field">

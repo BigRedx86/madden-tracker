@@ -5,7 +5,8 @@ The rules, from the plan's "Who can do what" table:
 | Action                                   | Site admin (non-member) | Commissioner | Member, own player | Member, other |
 | View league data (R9)                    | No                      | Yes          | Yes                | Yes           |
 | Create, edit, delete games (R14)         | No                      | Yes          | No                 | No            |
-| Edit a stat line (R15)                   | No                      | Yes          | Yes                | No            |
+| Edit a stat line (R15)                   | No                      | Yes          | Yes, unless the season is locked | No |
+| Lock or unlock a season                  | No                      | Yes          | No                 | No            |
 | Edit player bio (R11)                    | No                      | Yes          | Yes                | No            |
 | Add or retire players, link members      | No                      | Yes          | No                 | No            |
 | Invite people (R2)                       | No                      | Yes          | No                 | No            |
@@ -82,8 +83,20 @@ def _commissioner_or_linked(user, player, membership=None):
     return membership.is_commissioner or membership.player_id == player.pk
 
 
-def can_edit_stat_line(user, player, membership=None):
+def can_edit_stat_line(user, player, membership=None, season=None):
+    """Commissioners edit any line; a member edits their own player's lines, except in a
+    locked season (``season`` is the season of the game the line is for)."""
+    if season is not None and season.is_locked:
+        return is_commissioner(user, player.league) if membership is None else _is_commissioner_of(
+            user, player, membership
+        )
     return _commissioner_or_linked(user, player, membership)
+
+
+def _is_commissioner_of(user, player, membership):
+    if membership.user_id != user.pk or membership.league_id != player.league_id:
+        membership = membership_for(user, player.league_id)
+    return bool(membership and membership.is_commissioner)
 
 
 def can_edit_player_bio(user, player):

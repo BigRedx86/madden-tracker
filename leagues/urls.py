@@ -23,6 +23,7 @@ league_patterns = [
     path("seasons/<int:season_id>/", game_views.season_view, name="season"),
     path("seasons/<int:season_id>/edit/", views.season_edit, name="season_edit"),
     path("seasons/<int:season_id>/delete/", views.season_delete, name="season_delete"),
+    path("seasons/<int:season_id>/lock/", game_views.season_lock, name="season_lock"),
     path("seasons/<int:season_id>/games/new/", game_views.game_create, name="game_create"),
     path("games/<int:game_id>/", game_views.game_detail, name="game"),
     path("games/<int:game_id>/edit/", game_views.game_edit, name="game_edit"),

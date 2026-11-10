@@ -68,7 +68,9 @@ def season_view(request, league_id, season_id):
 
     statuses = entry_statuses(focus, games) if focus else {}
     next_game = _first_missing(games, statuses)
-    can_enter = focus is not None and policy.can_edit_stat_line(request.user, focus, request.membership)
+    can_enter = focus is not None and policy.can_edit_stat_line(
+        request.user, focus, request.membership, season=season
+    )
     rows = [
         {
             "game": game,
@@ -104,6 +106,21 @@ def _player_entries(season, data):
     """One optional stat-line form per active player on the season's team, for the add-game page."""
     players = season.team.players.filter(status=Player.Status.ACTIVE)
     return [(player, StatLineForm(data, prefix=f"player-{player.pk}")) for player in players]
+
+
+@league_view
+@require_POST
+def season_lock(request, league_id, season_id):
+    """Lock a finished season so only commissioners can change its stats, or unlock it."""
+    season = get_in_league(Season, request.league, pk=season_id)
+    require(policy.can_manage_seasons(request.user, request.league))
+    season.is_locked = request.POST.get("locked") == "1"
+    season.save()
+    if season.is_locked:
+        messages.success(request, f"Locked {season.name}. Only commissioners can change its stats now.")
+    else:
+        messages.success(request, f"Unlocked {season.name}. Players can enter and edit their stats again.")
+    return redirect(season_url(season))
 
 
 @league_view
@@ -214,7 +231,7 @@ def game_detail(request, league_id, game_id):
     for player in request.league.players.all():
         line = lines.get(player.pk)
         status = _status(line is not None, line is not None and line.did_not_play)
-        can_edit = policy.can_edit_stat_line(request.user, player, request.membership)
+        can_edit = policy.can_edit_stat_line(request.user, player, request.membership, season=game.season)
         rows.append({"player": player, "status": status, "can_edit": can_edit})
     return render(
         request,

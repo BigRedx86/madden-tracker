@@ -52,7 +52,9 @@ def export_league(league):
             game_keys[game.pk] = len(game_keys) + 1
             games.append({"key": game_keys[game.pk], "week": game.order,
                           **{field: getattr(game, field) for field in GAME_FIELDS}})
-        season_docs.append({"team": season.team.name, "name": season.name, "games": games})
+        season_docs.append(
+            {"team": season.team.name, "name": season.name, "locked": season.is_locked, "games": games}
+        )
 
     lines = (
         StatLine.objects.filter(player__league=league)
@@ -117,7 +119,12 @@ def _create(data, user):
     games = {}
     for season_doc in data["seasons"]:
         where = f"Season {season_doc['name']!r}"
-        season = Season(team=team_named(season_doc["team"], where), name=season_doc["name"])
+        season = Season(
+            team=team_named(season_doc["team"], where),
+            name=season_doc["name"],
+            # Files exported before seasons could be locked have no "locked" key.
+            is_locked=bool(season_doc.get("locked", False)),
+        )
         _save(season, where)
         for game_doc in season_doc["games"]:
             game = Game(season=season, order=game_doc["week"], **{f: game_doc[f] for f in GAME_FIELDS})

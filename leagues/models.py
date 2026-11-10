@@ -65,6 +65,8 @@ class Season(ValidatedModel):
 
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="seasons")
     name = models.CharField(max_length=100)
+    # A locked (finished) season's stat lines can be changed only by a commissioner.
+    is_locked = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["team", "id"]

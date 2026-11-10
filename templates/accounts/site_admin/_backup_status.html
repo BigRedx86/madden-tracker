@@ -1,0 +1,15 @@
+{# Backup status (R28, KTD8). Context: backup = ops.backups.status(). #}
+<section class="card" id="backup-status">
+  <h2>Backups</h2>
+  {% if backup.last_success %}
+  <p>Last successful backup: {{ backup.last_success }} ({{ backup.last_success|timesince }} ago). {{ backup.count }} kept in <code>{{ backup.dir }}</code>.</p>
+  {% if backup.is_stale %}
+  <p class="notice">Warning: the last backup is more than 26 hours old. Check the nightly User Scripts job and the backups folder.</p>
+  {% endif %}
+  {% else %}
+  <p class="notice">No backups found in <code>{{ backup.dir }}</code>. Set up the nightly User Scripts job (see the README).</p>
+  {% endif %}
+  {% if backup.last_failure %}
+  <p class="notice">The last backup attempt failed at {{ backup.last_failure.at }}: {{ backup.last_failure.error }}</p>
+  {% endif %}
+</section>

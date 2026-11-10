@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Two-factor authentication · Madden League Tracker{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Two-factor authentication</h1>
+  {% if enabled %}
+  <p>Two-factor authentication is already on for your account.</p>
+  {% else %}
+  <ol>
+    <li>Scan this code with an authenticator app (for example Google Authenticator, Authy, or 1Password).</li>
+    <li>Or type the secret below into the app by hand.</li>
+    <li>Enter the 6-digit code the app shows to turn two-factor on.</li>
+  </ol>
+  <div class="qr" role="img" aria-label="QR code for your authenticator app">{{ qr_svg }}</div>
+  <div class="field">
+    <label for="totp-secret">Secret key</label>
+    <input id="totp-secret" type="text" value="{{ secret }}" readonly autocomplete="off" spellcheck="false">
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Turn on</button>
+  </form>
+  {% endif %}
+  <p><a href="{% url 'accounts:account' %}">Back to your account</a></p>
+</section>
+{% endblock %}

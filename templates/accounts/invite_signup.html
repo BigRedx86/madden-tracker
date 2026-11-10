@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Join {{ invite_league.name }} · Madden League Tracker{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Join {{ invite_league.name }}</h1>
+  <p>Create your account. Already have one? <a href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">Sign in</a> first, then open this link again.</p>
+  <form method="post">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Create account and join</button>
+  </form>
+</section>
+{% endblock %}

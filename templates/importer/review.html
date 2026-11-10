@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Review import · {{ league.name }}{% endblock %}
+{% block content %}
+<h1>Review the import</h1>
+<section class="card">
+  <p>From {{ draft.file_name|default:"the uploaded file" }}: {{ players|length }} player{{ players|length|pluralize }} and {{ seasons|length }} season{{ seasons|length|pluralize }}. Nothing is saved until you confirm.</p>
+  <p class="status{% if resolved == total %} status--entered{% else %} status--missing{% endif %}">{{ resolved }} of {{ total }} conflict{{ total|pluralize }} resolved</p>
+  <p class="muted">Scores read as the team's score first, then the opponent's.</p>
+</section>
+
+<section class="card">
+  <h2>Players</h2>
+  <ul>
+    {% for p in players %}
+    <li>{{ p.name }} · {{ p.primary_position }}{% if p.secondary_position %}/{{ p.secondary_position }}{% endif %}{% if p.team %} · {{ p.team }}{% endif %}{% if p.height %} · {{ p.height }}{% endif %}{% if p.weight %} · {{ p.weight }} lb{% endif %}{% if p.overall %} · {{ p.overall }} OVR{% endif %}</li>
+    {% endfor %}
+  </ul>
+</section>
+
+{% for s in seasons %}
+<section class="card" id="season-{{ s.index }}">
+  <h2>{{ s.season.team|default:league.name }} · {{ s.season.name }}: {{ s.weeks|length }} game{{ s.weeks|length|pluralize }}</h2>
+  {% if s.missing_open %}
+  <form method="post" action="{% url 'importer:acknowledge_missing' league.pk s.index %}">
+    {% csrf_token %}
+    <button type="submit" class="button--secondary">Record the result only for all {{ s.missing_open }} game{{ s.missing_open|pluralize }} with no score</button>
+  </form>
+  {% endif %}
+  <ol class="game-list">
+    {% for week in s.weeks %}
+    <li class="game">
+      <p><strong>Week {{ week.number }} vs {{ week.slot.opponent }}</strong>
+        {% if week.slot.team_score is not None %}· {{ week.slot.team_score }}-{{ week.slot.opponent_score }}{% endif %}
+        {% if week.slot.is_playoff %}· Playoff{% endif %}
+        <span class="muted">· {{ week.players|length }} line{{ week.players|length|pluralize }}</span></p>
+      {% for card in week.cards %}{% include "importer/_conflict.html" with team_name=s.season.team|default:"Team" %}{% endfor %}
+    </li>
+    {% endfor %}
+  </ol>
+  {% if s.floating %}
+  <h3>Games that need placing</h3>
+  {% for card in s.floating %}{% include "importer/_conflict.html" with team_name=s.season.team|default:"Team" %}{% endfor %}
+  {% endif %}
+</section>
+{% endfor %}
+
+<section class="card" id="confirm">
+  <h2>Save the import</h2>
+  {% if remaining %}
+  <p class="notice">Resolve the remaining {{ remaining }} conflict{{ remaining|pluralize }} first: {{ resolved }} of {{ total }} done.</p>
+  {% endif %}
+  <form method="post" action="{% url 'importer:confirm' league.pk %}">
+    {% csrf_token %}
+    {% if existing_players %}
+    <p class="notice">This league already has {{ existing_players }} player{{ existing_players|pluralize }}. Confirming adds the backup's players, seasons, and games as new records next to them. Nothing is merged.</p>
+    <div class="field--check">
+      <input type="checkbox" name="add_alongside" value="yes" id="add-alongside">
+      <label for="add-alongside">Add the backup alongside the existing players</label>
+    </div>
+    {% endif %}
+    <button type="submit">Confirm and save</button>
+  </form>
+  <form method="post" action="{% url 'importer:discard' league.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="button--secondary">Discard this import</button>
+  </form>
+</section>
+{% endblock %}

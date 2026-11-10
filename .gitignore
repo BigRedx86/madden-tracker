@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/
+staticfiles/
+*.sqlite3
+.env
+.DS_Store
+# Legacy backups contain real data and must never be committed.
+madden-player-tracker*.json
+/backups/
+# Planning docs stay local (they name real players).
+docs/plans/

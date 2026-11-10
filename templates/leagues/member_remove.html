@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Remove {{ target.user.username }} · {{ league.name }}{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Remove {{ target.user.username }} from {{ league.name }}?</h1>
+  <p>They lose access to this league.{% if target.player %} {{ target.player.name }} and their stats stay in the league, unclaimed.{% endif %}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Remove {{ target.user.username }}</button>
+    <a href="{% url 'leagues:members' league.pk %}">Cancel</a>
+  </form>
+</section>
+{% endblock %}

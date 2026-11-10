@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Set a new password · Madden League Tracker{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Set a new password</h1>
+  <p>For the account <strong>{{ target.username }}</strong>.</p>
+  <form method="post">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Set password</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Your leagues · Madden League Tracker{% endblock %}
+{% block content %}
+{% if leagues %}
+<h1>Your leagues</h1>
+<ul class="card-list">
+  {% for item in leagues %}
+  <li class="card"><a href="{% url 'leagues:league_home' item.pk %}">{{ item.name }}</a></li>
+  {% endfor %}
+</ul>
+<p><a class="button button--secondary" href="{% url 'leagues:league_create' %}">Create a league</a> <a href="{% url 'importer:native_import' %}">Import a league file</a></p>
+{% else %}
+<section class="card narrow">
+  <h1>No leagues yet</h1>
+  <p>You're not in a league. Start one for your group, or ask a commissioner for an invite link.</p>
+  <p><a class="button" href="{% url 'leagues:league_create' %}">Create a league</a> <a href="{% url 'importer:native_import' %}">Import a league file</a></p>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Roster · {{ league.name }}{% endblock %}
+{% block content %}
+<h1>Roster</h1>
+<form method="get" class="card toolbar">
+  <div class="field">
+    <label for="roster-q">Search players</label>
+    <input id="roster-q" type="search" name="q" value="{{ query }}">
+  </div>
+  <div class="field">
+    <label for="roster-sort">Sort by</label>
+    <select id="roster-sort" name="sort">
+      {% for key, label in sorts %}<option value="{{ key }}"{% if key == sort %} selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+  </div>
+  <button type="submit" class="button--secondary">Show</button>
+</form>
+
+<p>{{ players|length }} player{{ players|length|pluralize }}{% if can_manage %} · <a href="{% url 'leagues:player_create' league.pk %}">Add a player</a>{% endif %}</p>
+
+{% if players %}
+<ul class="card-list">
+  {% for row in players %}{% with p=row.player %}
+  <li class="card player-card">
+    <h2><a href="{% url 'stats:profile' league.pk p.pk %}">{{ p.name }}</a>{% if p.status == "Retired" %} <span class="badge badge--retired">Retired{% if p.retirement_year %} {{ p.retirement_year }}{% endif %}</span>{% endif %}</h2>
+    <p>{{ p.primary_position }}{% if p.secondary_position %}/{{ p.secondary_position }}{% endif %}
+      {% if p.team %}· {{ p.team.name }}{% endif %}
+      {% if p.overall %}· {{ p.overall }} OVR{% endif %}</p>
+    <p class="muted">{% if p.height %}{{ p.height }}{% endif %}{% if p.weight %} · {{ p.weight }} lbs{% endif %}
+      {% if p.super_bowl_wins %}· {{ p.super_bowl_wins }} Super Bowl win{{ p.super_bowl_wins|pluralize }}{% endif %}
+      {% if p.awards %}· {{ p.awards|join:", " }}{% endif %}</p>
+    <p class="muted">{% if row.linked_to %}Played by {{ row.linked_to }}{% else %}Unclaimed{% endif %}</p>
+    {% if can_manage %}<p><a href="{% url 'leagues:player_edit' league.pk p.pk %}">Edit {{ p.name }}</a></p>
+    {% elif p.pk == my_player_id %}<p><a href="{% url 'leagues:player_edit' league.pk p.pk %}">Edit my bio</a></p>{% endif %}
+  </li>
+  {% endwith %}{% endfor %}
+</ul>
+{% elif query %}
+<p class="muted">No players match "{{ query }}".</p>
+{% else %}
+<p class="muted">No players yet.</p>
+{% endif %}
+{% endblock %}

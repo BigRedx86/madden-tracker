@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Sign in · Madden League Tracker{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Sign in</h1>
+  <form method="post" action="{% url 'accounts:login' %}">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Sign in</button>
+  </form>
+  <p class="muted">Forgot your password? Ask your commissioner for a reset link.</p>
+</section>
+{% endblock %}

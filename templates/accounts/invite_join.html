@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Join {{ invite_league.name }} · Madden League Tracker{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Join {{ invite_league.name }}</h1>
+  {% if already_member %}
+  <p>You're already a member of {{ invite_league.name }}. This invite is still unused, so it can go to someone else.</p>
+  {% else %}
+  <p>You're signed in as {{ user.username }}. Join {{ invite_league.name }} with this account?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Join league</button>
+  </form>
+  {% endif %}
+</section>
+{% endblock %}

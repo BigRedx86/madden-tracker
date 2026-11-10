@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Your account · Madden League Tracker{% endblock %}
+{% block content %}
+<h1>Your account</h1>
+<section class="card">
+  <h2>{{ user.first_name|default:user.username }}</h2>
+  <p>Username: {{ user.username }}</p>
+  <p><a href="{% url 'accounts:password_change' %}">Change password</a></p>
+</section>
+
+<section class="card">
+  <h2>Two-factor authentication</h2>
+  {% if has_2fa %}
+  <p>On. Signing in needs your password and a code from your authenticator app.</p>
+  {% else %}
+  <p>Off. <a href="{% url 'accounts:totp_setup' %}">Turn on two-factor authentication</a></p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Recent password resets</h2>
+  {% if recent_resets %}
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th scope="col">Used</th><th scope="col">Link created by</th><th scope="col">From address</th></tr></thead>
+      <tbody>
+        {% for reset in recent_resets %}
+        <tr>
+          <td>{{ reset.used_at }}</td>
+          <td>{{ reset.created_by.username|default:"a removed user" }}</td>
+          <td>{{ reset.used_ip|default:"unknown" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">If you don't recognize a reset, tell your commissioner or the site admin.</p>
+  {% else %}
+  <p class="muted">Your password has not been reset through a link.</p>
+  {% endif %}
+</section>
+
+{% if is_site_admin %}
+<section class="card">
+  <h2>Site admin</h2>
+  {% if can_open_site_admin %}
+  <p><a href="{% url 'accounts:site_admin' %}">Users, reset log, and backups</a></p>
+  {% else %}
+  <p>Turn on two-factor authentication, then sign in again with your code, to use the site-admin pages.</p>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

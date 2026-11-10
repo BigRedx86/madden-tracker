@@ -1,0 +1,2407 @@
+{
+ "players": [
+  {
+   "id": "6513270e-269e-0d37-f2a7-4de452e6b438",
+   "name": "Avery",
+   "team": "Sharks",
+   "primaryPosition": "WR",
+   "secondaryPosition": "CB",
+   "height": "6’2”",
+   "weight": "170",
+   "overall": "",
+   "superBowlWins": 0,
+   "awards": [],
+   "status": "Active",
+   "seasons": [
+    {
+     "id": "d23f0824-128b-2f33-0c5c-7fd0a6a3a450",
+     "name": "01-02",
+     "games": [
+      {
+       "id": "0fd630f1-f29d-0da9-953f-48f1a09f76b5",
+       "opponent": "Raiders",
+       "score": "35-10",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 26,
+        "receivingTDs": 0,
+        "rushingAttempts": 1,
+        "rushingYards": 2,
+        "rushingTDs": 0,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 0,
+        "totalTackles": 0,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "18f135d2-5f55-7203-3018-50c5a38fd547",
+       "opponent": "49ers",
+       "score": "24-14",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 9,
+        "receivingTDs": 1,
+        "rushingAttempts": 0,
+        "rushingYards": 17,
+        "rushingTDs": 2,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 2,
+        "totalTackles": 2,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "57ee05cd-e009-02c7-7ebf-f20686734721",
+       "opponent": "Chiefs",
+       "score": "41-7",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 37,
+        "receivingTDs": 1,
+        "rushingAttempts": 3,
+        "rushingYards": 14,
+        "rushingTDs": 2,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 1,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "9474031b-7f26-144b-9828-9fcd59a54a7b",
+       "opponent": "Vikings",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 9,
+        "receivingTDs": 0,
+        "rushingAttempts": 0,
+        "rushingYards": 15,
+        "rushingTDs": 1,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 0,
+        "totalTackles": 1,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 1,
+        "forceFumbles": 1,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "5affb229-7631-a992-f0ce-583505c6af07",
+       "opponent": "Bengals",
+       "score": "38=28",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 46,
+        "receivingTDs": 0,
+        "rushingAttempts": 2,
+        "rushingYards": 9,
+        "rushingTDs": 0,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 2,
+        "totalTackles": 4,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 1,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "6e36aab0-d1bc-52d9-230d-977ee2257159",
+       "opponent": "Patriots",
+       "score": "9-16",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 47,
+        "receivingTDs": 3,
+        "rushingAttempts": 0,
+        "rushingYards": 7,
+        "rushingTDs": 2,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 1,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 1,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "88daf401-6b40-13ef-254b-0c4e010c4759",
+       "opponent": "Bills",
+       "score": "338-7",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 11,
+        "receivingTDs": 2,
+        "rushingAttempts": 3,
+        "rushingYards": 4,
+        "rushingTDs": 1,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 2,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "99c94309-570d-c195-1c24-42f9298cb3a5",
+       "opponent": "Patriots",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 25,
+        "receivingTDs": 1,
+        "rushingAttempts": 0,
+        "rushingYards": 12,
+        "rushingTDs": 3,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "7cf20724-d953-ee26-1d87-cec31f7296ab",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 4,
+        "receivingTDs": 0,
+        "rushingAttempts": 1,
+        "rushingYards": 6,
+        "rushingTDs": 2,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 2,
+        "forceFumbles": 1,
+        "defensiveTDs": 1
+       }
+      }
+     ]
+    },
+    {
+     "id": "7afb2c68-774b-15d7-fa52-9ba3fe3bfada",
+     "name": "02-03 Season",
+     "games": [
+      {
+       "id": "fa7f0eab-4c4f-9b06-8732-2e25c215a82a",
+       "opponent": "Colts",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 30,
+        "receivingTDs": 0,
+        "rushingAttempts": 1,
+        "rushingYards": 5,
+        "rushingTDs": 2,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 2,
+        "forceFumbles": 2,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "fd56a926-076b-3e36-bb23-13f55b06258e",
+       "opponent": "Patriots",
+       "score": "38-16",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 40,
+        "receivingTDs": 2,
+        "rushingAttempts": 1,
+        "rushingYards": 7,
+        "rushingTDs": 1,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "e67a9b75-fc39-4724-9fc2-d0a17b8f2ab5",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 51,
+        "receivingTDs": 3,
+        "rushingAttempts": 2,
+        "rushingYards": 11,
+        "rushingTDs": 2,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 0,
+        "totalTackles": 1,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "28aaca51-b98c-67c2-15bd-448ff26149ed",
+       "opponent": "Commanders",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 30,
+        "receivingTDs": 2,
+        "rushingAttempts": 0,
+        "rushingYards": 5,
+        "rushingTDs": 3,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 2,
+        "totalTackles": 3,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 1,
+        "forceFumbles": 1,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "23a5ef88-ef02-090b-bfde-fc1586ce03f9",
+       "opponent": "Jags",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 42,
+        "receivingTDs": 0,
+        "rushingAttempts": 1,
+        "rushingYards": 11,
+        "rushingTDs": 1,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 2,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 2,
+        "forceFumbles": 2,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "9556585e-a997-f351-754a-09cde5cfedfa",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 32,
+        "receivingTDs": 1,
+        "rushingAttempts": 0,
+        "rushingYards": 7,
+        "rushingTDs": 1,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "8e317041-87dd-aeb7-84b2-8054aead44b0",
+       "opponent": "Texans",
+       "score": "27-24",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 49,
+        "receivingTDs": 1,
+        "rushingAttempts": 0,
+        "rushingYards": 4,
+        "rushingTDs": 1,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 0,
+        "totalTackles": 0,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 2,
+        "forceFumbles": 0,
+        "defensiveTDs": 1
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "1b29fc99-c6c8-0e2b-c8c6-14b27b8444d1",
+   "name": "Blake",
+   "team": "Sharks",
+   "primaryPosition": "RB",
+   "secondaryPosition": "WR",
+   "height": "5’10”",
+   "weight": "160",
+   "overall": "",
+   "superBowlWins": 0,
+   "awards": [],
+   "status": "Active",
+   "seasons": [
+    {
+     "id": "3f9d52f9-0e8b-ec94-8f6f-915fe21b37ca",
+     "name": "01-02",
+     "games": [
+      {
+       "id": "81fc069e-7a60-9683-ceaf-4915888564e8",
+       "opponent": "Raiders",
+       "score": "35-10",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 28,
+        "receivingTDs": 0,
+        "rushingAttempts": 0,
+        "rushingYards": -3,
+        "rushingTDs": 0,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 2,
+        "totalTackles": 4,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 1,
+        "forceFumbles": 1,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "c6e50df2-e5a3-863e-1f52-5265c8b007ee",
+       "opponent": "49ers",
+       "score": "24-14",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 25,
+        "receivingTDs": 1,
+        "rushingAttempts": 3,
+        "rushingYards": 14,
+        "rushingTDs": 3,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 0,
+        "totalTackles": 1,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "321c5296-6bd8-c676-56d0-50cd67601367",
+       "opponent": "Chiefs",
+       "score": "41-7",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 47,
+        "receivingTDs": 1,
+        "rushingAttempts": 2,
+        "rushingYards": 3,
+        "rushingTDs": 3,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 1,
+        "totalTackles": 2,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 2,
+        "forceFumbles": 1,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "15850a03-1ad2-d5f1-e05b-3e13f8c110fb",
+       "opponent": "Vikings",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 28,
+        "receivingTDs": 0,
+        "rushingAttempts": 2,
+        "rushingYards": 0,
+        "rushingTDs": 2,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 1,
+        "totalTackles": 2,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "b02e3d8d-ccb1-c51d-0eba-0ea84770a087",
+       "opponent": "Bengals",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 54,
+        "receivingTDs": 0,
+        "rushingAttempts": 1,
+        "rushingYards": 8,
+        "rushingTDs": 1,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 0,
+        "totalTackles": 1,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 2,
+        "forceFumbles": 1,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "9f27f52c-4492-74d2-ea59-679aed3a32a8",
+       "opponent": "Patriots",
+       "score": "16-9",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 5,
+        "receivingTDs": 0,
+        "rushingAttempts": 2,
+        "rushingYards": 19,
+        "rushingTDs": 0,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 0,
+        "totalTackles": 0,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 1,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "cdbde747-58d5-0f1b-4540-f4262d8ad8c0",
+       "opponent": "Bills",
+       "score": "38-7",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 11,
+        "receivingTDs": 1,
+        "rushingAttempts": 0,
+        "rushingYards": 6,
+        "rushingTDs": 2,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 2,
+        "totalTackles": 3,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 1,
+        "forceFumbles": 2,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "fb813921-3716-1c16-b00f-d7bb4ecadea2",
+       "opponent": "Patriots",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 15,
+        "receivingTDs": 0,
+        "rushingAttempts": 0,
+        "rushingYards": 14,
+        "rushingTDs": 1,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 2,
+        "totalTackles": 2,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 2,
+        "forceFumbles": 1,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "dedb9109-6181-77ff-d75d-6769aa4c5c60",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 53,
+        "receivingTDs": 1,
+        "rushingAttempts": 1,
+        "rushingYards": 4,
+        "rushingTDs": 2,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 0,
+        "totalTackles": 0,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "00460d69-2ed6-5411-5b49-156137c60e98",
+       "opponent": "Seahawks",
+       "score": "20-17",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 17,
+        "receivingTDs": 2,
+        "rushingAttempts": 0,
+        "rushingYards": 14,
+        "rushingTDs": 1,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 1
+       }
+      }
+     ]
+    },
+    {
+     "id": "79823eb2-1579-da0a-61b2-480c55d85e8d",
+     "name": "02-03 Season",
+     "games": [
+      {
+       "id": "da6e6d8e-8778-f742-f527-b5c295e8c93e",
+       "opponent": "Colts",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 9,
+        "receivingTDs": 1,
+        "rushingAttempts": 0,
+        "rushingYards": 12,
+        "rushingTDs": 2,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 2,
+        "forceFumbles": 0,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "041dcd94-cdff-5a1c-d01a-914cd5be785a",
+       "opponent": "Patriots",
+       "score": "38-16",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 2,
+        "receivingTDs": 2,
+        "rushingAttempts": 3,
+        "rushingYards": 16,
+        "rushingTDs": 2,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 2,
+        "forceFumbles": 2,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "cc35e834-74fa-9412-00d9-35344387ee7b",
+       "opponent": "Commanders",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 24,
+        "receivingTDs": 0,
+        "rushingAttempts": 0,
+        "rushingYards": 14,
+        "rushingTDs": 2,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 2,
+        "forceFumbles": 0,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "9df2025f-0bf7-a4bd-c458-272f498dbfa8",
+       "opponent": "Jags",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 15,
+        "receivingTDs": 0,
+        "rushingAttempts": 3,
+        "rushingYards": 6,
+        "rushingTDs": 0,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 2,
+        "totalTackles": 2,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "491961a1-843b-aee9-b578-909c4a7591f2",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 0,
+        "receivingTDs": 1,
+        "rushingAttempts": 2,
+        "rushingYards": 15,
+        "rushingTDs": 2,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "35f10300-ee37-9c65-f212-01e4eaa3556c",
+       "opponent": "Texans",
+       "score": "27-24",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 59,
+        "receivingTDs": 3,
+        "rushingAttempts": 0,
+        "rushingYards": 15,
+        "rushingTDs": 2,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 1,
+        "forceFumbles": 1,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "736506ec-ae7c-8f09-7ddf-cbc9f3308ce5",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 56,
+        "receivingTDs": 1,
+        "rushingAttempts": 2,
+        "rushingYards": 3,
+        "rushingTDs": 1,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 0
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "24056360-ba28-a679-4d4c-a9c767c98fb9",
+   "name": "Casey",
+   "team": "Sharks",
+   "primaryPosition": "FS",
+   "secondaryPosition": "",
+   "height": "5’11”",
+   "weight": "170",
+   "overall": "",
+   "superBowlWins": 0,
+   "awards": [],
+   "status": "Active",
+   "seasons": [
+    {
+     "id": "50ea7da7-6048-7e15-580d-c5ab6a8ad9cb",
+     "name": "01-02",
+     "games": [
+      {
+       "id": "138efef9-96d4-480f-deb6-7ae7ffb0dd9e",
+       "opponent": "49ers",
+       "score": "24-14",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 60,
+        "receivingTDs": 0,
+        "rushingAttempts": 2,
+        "rushingYards": 6,
+        "rushingTDs": 3,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "e25f4b1c-6d80-de7c-f4c7-3f2bc8ff1c38",
+       "opponent": "Chiefs",
+       "score": "41-7",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 53,
+        "receivingTDs": 2,
+        "rushingAttempts": 0,
+        "rushingYards": 9,
+        "rushingTDs": 0,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 1,
+        "forceFumbles": 0,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "41785bc6-4c3a-c6fc-4820-823157fa49e5",
+       "opponent": "Vikings",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 39,
+        "receivingTDs": 1,
+        "rushingAttempts": 0,
+        "rushingYards": 4,
+        "rushingTDs": 3,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "6d6b987a-7330-9b95-c25e-114fff18fe33",
+       "opponent": "Raiders",
+       "score": "35-10",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 10,
+        "receivingTDs": 1,
+        "rushingAttempts": 2,
+        "rushingYards": 20,
+        "rushingTDs": 3,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 0,
+        "totalTackles": 0,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "607a4732-35c2-e229-862f-e231beef67fb",
+       "opponent": "Bengals",
+       "score": "38-28",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 20,
+        "receivingTDs": 1,
+        "rushingAttempts": 0,
+        "rushingYards": 7,
+        "rushingTDs": 2,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 1,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 1,
+        "forceFumbles": 1,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "4fe04802-f435-a573-6e8c-d94e7223c68a",
+       "opponent": "Patriots",
+       "score": "16-9",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 43,
+        "receivingTDs": 0,
+        "rushingAttempts": 3,
+        "rushingYards": 16,
+        "rushingTDs": 2,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 2,
+        "totalTackles": 4,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 1,
+        "forceFumbles": 1,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "f1058667-1be0-3df0-ae9c-78bdf8cd9ec3",
+       "opponent": "Bills",
+       "score": "38-7",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 4,
+        "receivingTDs": 0,
+        "rushingAttempts": 3,
+        "rushingYards": 12,
+        "rushingTDs": 3,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "f18bde0e-8641-7b60-4ce3-b0cc1202952f",
+       "opponent": "Patriots",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 41,
+        "receivingTDs": 0,
+        "rushingAttempts": 0,
+        "rushingYards": 9,
+        "rushingTDs": 1,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 2,
+        "totalTackles": 2,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 2,
+        "forceFumbles": 0,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "a64f7613-b464-2ea4-696c-63d6f5ead065",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 29,
+        "receivingTDs": 2,
+        "rushingAttempts": 1,
+        "rushingYards": 8,
+        "rushingTDs": 0,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 2,
+        "totalTackles": 3,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 2,
+        "forceFumbles": 0,
+        "defensiveTDs": 0
+       }
+      }
+     ]
+    },
+    {
+     "id": "31b1891a-0593-dba2-0e28-b64f4eb19fca",
+     "name": "02-03 Season",
+     "games": [
+      {
+       "id": "bd37929d-4ac7-ccc3-cc0c-668201ba985a",
+       "opponent": "Colts",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 14,
+        "receivingTDs": 0,
+        "rushingAttempts": 2,
+        "rushingYards": 15,
+        "rushingTDs": 3,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 2,
+        "totalTackles": 2,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 2,
+        "forceFumbles": 1,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "0e71597a-aa50-b96f-e90f-b6516ac26ae0",
+       "opponent": "Patriots",
+       "score": "38-16",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 29,
+        "receivingTDs": 3,
+        "rushingAttempts": 1,
+        "rushingYards": 7,
+        "rushingTDs": 1,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 1,
+        "totalTackles": 2,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "a70828a7-2f7d-ba08-30d0-a2b8544940e1",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 3,
+        "receivingTDs": 0,
+        "rushingAttempts": 1,
+        "rushingYards": 1,
+        "rushingTDs": 1,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "d252a617-c4cb-a038-5b4c-0d7361502dee",
+       "opponent": "Commanders",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 10,
+        "receivingTDs": 2,
+        "rushingAttempts": 3,
+        "rushingYards": 3,
+        "rushingTDs": 2,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 0,
+        "totalTackles": 0,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "679f2d9e-c444-5aae-a01a-c23acfd3bb74",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 34,
+        "receivingTDs": 0,
+        "rushingAttempts": 0,
+        "rushingYards": 14,
+        "rushingTDs": 1,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 2,
+        "forceFumbles": 1,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "ec9a360c-5105-122a-b088-2411b77570a4",
+       "opponent": "Texans",
+       "score": "27-24",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 12,
+        "receivingTDs": 0,
+        "rushingAttempts": 3,
+        "rushingYards": 2,
+        "rushingTDs": 0,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "c5d6d5e9-b12e-1de2-d2a0-169d4da60990",
+       "opponent": "Jags",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 30,
+        "receivingTDs": 0,
+        "rushingAttempts": 0,
+        "rushingYards": 14,
+        "rushingTDs": 1,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 1,
+        "totalTackles": 2,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 2
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "53eab031-3c73-d5f4-9b75-036226bc9858",
+   "name": "Drew",
+   "team": "Sharks",
+   "primaryPosition": "LB",
+   "secondaryPosition": "",
+   "height": "5’7”",
+   "weight": "160",
+   "overall": "",
+   "superBowlWins": 0,
+   "awards": [],
+   "status": "Active",
+   "seasons": [
+    {
+     "id": "5ca2c132-75f5-c1a0-51cd-f2f9dc7a615d",
+     "name": "01-02",
+     "games": [
+      {
+       "id": "18af266c-3555-d6ae-1586-6ffb9fe5e399",
+       "opponent": "Raiders",
+       "score": "35-10",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 41,
+        "receivingTDs": 3,
+        "rushingAttempts": 1,
+        "rushingYards": 1,
+        "rushingTDs": 3,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 2,
+        "totalTackles": 3,
+        "tacklesForLoss": 1,
+        "sacks": 0.5,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "4109d8d6-5f7b-07b8-4485-c04f911f52dc",
+       "opponent": "49ers",
+       "score": "24-14",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 29,
+        "receivingTDs": 3,
+        "rushingAttempts": 1,
+        "rushingYards": 19,
+        "rushingTDs": 1,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 2,
+        "sacks": 1.5,
+        "interceptions": 0,
+        "passDeflections": 1,
+        "forceFumbles": 1,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "19bd2640-cef6-1d03-a64e-d9963b3bc813",
+       "opponent": "Jets",
+       "score": "41-7",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 9,
+        "receivingTDs": 3,
+        "rushingAttempts": 1,
+        "rushingYards": 9,
+        "rushingTDs": 1,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "833e469f-5f4a-ebeb-133a-d73dee1fdde0",
+       "opponent": "Vikings",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 58,
+        "receivingTDs": 0,
+        "rushingAttempts": 0,
+        "rushingYards": 11,
+        "rushingTDs": 1,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 2,
+        "forceFumbles": 2,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "9a8ca891-41d8-bf61-244d-d37f05a97aab",
+       "opponent": "Bengals",
+       "score": "38-28",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": true,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 0,
+        "receivingTDs": 0,
+        "rushingAttempts": 0,
+        "rushingYards": 0,
+        "rushingTDs": 0,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 0,
+        "totalTackles": 0,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "a72ed508-1755-c6de-88b4-09c8a3a16d92",
+       "opponent": "Patriots",
+       "score": "16-9",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 2,
+        "receivingTDs": 2,
+        "rushingAttempts": 1,
+        "rushingYards": 15,
+        "rushingTDs": 0,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 2,
+        "forceFumbles": 2,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "3423880b-67ac-56f8-ba60-491e6406f458",
+       "opponent": "Bills",
+       "score": "38-7",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 3,
+        "receivingTDs": 2,
+        "rushingAttempts": 3,
+        "rushingYards": 9,
+        "rushingTDs": 2,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 2,
+        "totalTackles": 4,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 1,
+        "forceFumbles": 2,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "ed5ec904-9f48-250d-92a7-3f9d16cabe32",
+       "opponent": "Patriots",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 36,
+        "receivingTDs": 1,
+        "rushingAttempts": 3,
+        "rushingYards": 11,
+        "rushingTDs": 0,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 0,
+        "totalTackles": 1,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "a2e8fec0-ed19-557a-9b8e-9a820da9f44a",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 59,
+        "receivingTDs": 1,
+        "rushingAttempts": 2,
+        "rushingYards": 2,
+        "rushingTDs": 1,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 1
+       }
+      }
+     ]
+    },
+    {
+     "id": "b659f768-e77b-0475-1617-643b634d1952",
+     "name": "02-03 Season",
+     "games": [
+      {
+       "id": "d7ad18a7-8ff5-ba77-e244-d05f0a857746",
+       "opponent": "Colts",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 2,
+        "receivingTDs": 3,
+        "rushingAttempts": 1,
+        "rushingYards": 12,
+        "rushingTDs": 1,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "fc7383bf-9e6f-b2b7-00e5-e81305fbec3a",
+       "opponent": "Patriots",
+       "score": "38-16",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 19,
+        "receivingTDs": 0,
+        "rushingAttempts": 3,
+        "rushingYards": 18,
+        "rushingTDs": 2,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 2,
+        "forceFumbles": 1,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "a2ed8962-0a68-253a-0a6f-b154a8376dcd",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 25,
+        "receivingTDs": 1,
+        "rushingAttempts": 3,
+        "rushingYards": 3,
+        "rushingTDs": 1,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 0,
+        "totalTackles": 0,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 1,
+        "forceFumbles": 2,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "ee3ab808-b898-a70c-c9d3-5f16afa6798a",
+       "opponent": "Commanders",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 1,
+        "receivingTDs": 2,
+        "rushingAttempts": 0,
+        "rushingYards": 2,
+        "rushingTDs": 3,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 2,
+        "totalTackles": 4,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 1,
+        "forceFumbles": 1,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "096de421-5f4c-e302-51af-10743cc63141",
+       "opponent": "Jags",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 57,
+        "receivingTDs": 2,
+        "rushingAttempts": 2,
+        "rushingYards": 14,
+        "rushingTDs": 2,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 1,
+        "forceFumbles": 2,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "1ac7a46c-e566-e133-e1ed-cf3eb050864e",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 10,
+        "receivingTDs": 3,
+        "rushingAttempts": 1,
+        "rushingYards": 8,
+        "rushingTDs": 2,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 2,
+        "totalTackles": 2,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 2,
+        "forceFumbles": 2,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "f748f931-a3a5-1759-4f60-e84640ef5ec2",
+       "opponent": "Texans",
+       "score": "27-21",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 23,
+        "receivingTDs": 2,
+        "rushingAttempts": 2,
+        "rushingYards": 10,
+        "rushingTDs": 2,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 2
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "edaf80f3-95fb-98f9-decb-c10bfbeb0a98",
+   "name": "Ellis",
+   "team": "Sharks",
+   "primaryPosition": "TE",
+   "secondaryPosition": "",
+   "height": "6’4”",
+   "weight": "180",
+   "overall": "71",
+   "superBowlWins": 0,
+   "awards": [],
+   "status": "Active",
+   "seasons": [
+    {
+     "id": "bba86df7-5009-c0a9-e54e-19e5a9e82581",
+     "name": "01-02",
+     "games": [
+      {
+       "id": "4dc1d327-5ade-d3ca-912e-da4100ab68b8",
+       "opponent": "Raiders",
+       "score": "35-10",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 32,
+        "receivingTDs": 1,
+        "rushingAttempts": 1,
+        "rushingYards": 11,
+        "rushingTDs": 3,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 0,
+        "totalTackles": 0,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "df0c92b9-250a-82a2-a361-bca2104c968a",
+       "opponent": "49ers",
+       "score": "24-14",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 23,
+        "receivingTDs": 1,
+        "rushingAttempts": 3,
+        "rushingYards": 19,
+        "rushingTDs": 1,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 0,
+        "totalTackles": 1,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "28c26bb2-3cd7-dcef-2f87-466e67eee099",
+       "opponent": "Chiefs",
+       "score": "41-7",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 38,
+        "receivingTDs": 2,
+        "rushingAttempts": 0,
+        "rushingYards": 16,
+        "rushingTDs": 2,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "0c69e424-a03f-2a2b-4cde-3e5a10530be2",
+       "opponent": "Vikings",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 33,
+        "receivingTDs": 0,
+        "rushingAttempts": 1,
+        "rushingYards": 19,
+        "rushingTDs": 3,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 2,
+        "totalTackles": 4,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "b630f005-4367-8856-d867-c466f15ea89d",
+       "opponent": "Bengals",
+       "score": "38-28",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 11,
+        "receivingTDs": 3,
+        "rushingAttempts": 3,
+        "rushingYards": 7,
+        "rushingTDs": 0,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 1,
+        "forceFumbles": 2,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "541c18d5-6382-5046-e152-7ae43122c815",
+       "opponent": "Patriots",
+       "score": "16-9",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 56,
+        "receivingTDs": 3,
+        "rushingAttempts": 2,
+        "rushingYards": 16,
+        "rushingTDs": 1,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 0,
+        "totalTackles": 0,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "1ca505c1-06e3-15e3-086d-06d825042c3d",
+       "opponent": "Bills",
+       "score": "38-7",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 1,
+        "receivingYards": 46,
+        "receivingTDs": 3,
+        "rushingAttempts": 3,
+        "rushingYards": 7,
+        "rushingTDs": 0,
+        "fumbles": 3
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "d1cee715-f45e-af1c-d14b-b7f533061fbc",
+       "opponent": "Patriots",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 8,
+        "receivingTDs": 2,
+        "rushingAttempts": 1,
+        "rushingYards": 20,
+        "rushingTDs": 0,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "347a7325-a575-3d8b-c1e2-99a3cabe5e52",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 2,
+        "receivingTDs": 0,
+        "rushingAttempts": 1,
+        "rushingYards": 1,
+        "rushingTDs": 1,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 2,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 0
+       }
+      }
+     ]
+    },
+    {
+     "id": "6c7be37e-5625-e671-51b3-15ec4b61b0fd",
+     "name": "02-03 Season",
+     "games": [
+      {
+       "id": "192a2829-c5e5-0641-84c4-6f726fbb28f3",
+       "opponent": "Colts",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 58,
+        "receivingTDs": 2,
+        "rushingAttempts": 2,
+        "rushingYards": 10,
+        "rushingTDs": 0,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 2,
+        "totalTackles": 4,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 1,
+        "defensiveTDs": 0
+       }
+      },
+      {
+       "id": "2f3ca661-d349-79b3-cbf9-3e3fb1f925cb",
+       "opponent": "Patriots",
+       "score": "38-16",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 27,
+        "receivingTDs": 0,
+        "rushingAttempts": 1,
+        "rushingYards": 0,
+        "rushingTDs": 2,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 0,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 1,
+        "forceFumbles": 0,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "edb27a0f-66b9-aaf9-185b-a6635b09b845",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 31,
+        "receivingTDs": 2,
+        "rushingAttempts": 1,
+        "rushingYards": 5,
+        "rushingTDs": 1,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 2,
+        "totalTackles": 2,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 2,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "c0c3ea0c-b071-b0da-c125-516b98162c67",
+       "opponent": "Commanders",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 3,
+        "receivingYards": 16,
+        "receivingTDs": 3,
+        "rushingAttempts": 0,
+        "rushingYards": 13,
+        "rushingTDs": 1,
+        "fumbles": 2
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 2,
+        "totalTackles": 4,
+        "tacklesForLoss": 1,
+        "sacks": 0,
+        "interceptions": 0,
+        "passDeflections": 1,
+        "forceFumbles": 0,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "4479c074-310a-fae0-81f8-d9df3ce9a9af",
+       "opponent": "Jags",
+       "score": "",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 0,
+        "receivingYards": 29,
+        "receivingTDs": 2,
+        "rushingAttempts": 1,
+        "rushingYards": 14,
+        "rushingTDs": 2,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 2,
+        "assistTackles": 1,
+        "totalTackles": 3,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 1,
+        "forceFumbles": 2,
+        "defensiveTDs": 2
+       }
+      },
+      {
+       "id": "cb7dc45a-25f8-3e61-fbdc-773b26a55215",
+       "opponent": "Bills",
+       "score": "",
+       "outcome": "L",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 15,
+        "receivingTDs": 1,
+        "rushingAttempts": 1,
+        "rushingYards": 10,
+        "rushingTDs": 2,
+        "fumbles": 1
+       },
+       "defense": {
+        "soloTackles": 0,
+        "assistTackles": 1,
+        "totalTackles": 1,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 2,
+        "passDeflections": 0,
+        "forceFumbles": 0,
+        "defensiveTDs": 1
+       }
+      },
+      {
+       "id": "76997819-4bd4-a21c-a1e3-81f9fb1b0902",
+       "opponent": "Texans",
+       "score": "27-24",
+       "outcome": "W",
+       "isPlayoff": false,
+       "isDNP": false,
+       "offense": {
+        "receptions": 2,
+        "receivingYards": 17,
+        "receivingTDs": 3,
+        "rushingAttempts": 2,
+        "rushingYards": 6,
+        "rushingTDs": 0,
+        "fumbles": 0
+       },
+       "defense": {
+        "soloTackles": 1,
+        "assistTackles": 1,
+        "totalTackles": 2,
+        "tacklesForLoss": 0,
+        "sacks": 0,
+        "interceptions": 1,
+        "passDeflections": 2,
+        "forceFumbles": 0,
+        "defensiveTDs": 2
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Import a league file · Madden League Tracker{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Import a league file</h1>
+  <p>Upload a league file exported from Madden League Tracker. It creates a new league with its teams, seasons, games, players, and stats, and makes you its commissioner. Accounts aren't in the file, so invite each member again and link them to their player.</p>
+  <p>Have an old Madden Tracker backup instead? Create a league, then use its Import an old backup page.</p>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Import league</button>
+  </form>
+</section>
+{% endblock %}

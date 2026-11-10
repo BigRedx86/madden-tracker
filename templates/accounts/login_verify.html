@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Two-factor code · Madden League Tracker{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Enter your code</h1>
+  <p>Open your authenticator app and enter the code for Madden League Tracker.</p>
+  <form method="post">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Verify</button>
+  </form>
+  <p class="muted">Lost your phone? Ask the site admin to reset two-factor authentication.</p>
+</section>
+{% endblock %}

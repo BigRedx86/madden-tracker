@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Create a league · Madden League Tracker{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Create a league</h1>
+  <p>You'll be its commissioner: you add the teams, seasons, games, and players, and invite your friends.</p>
+  <form method="post">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Create league</button>
+  </form>
+  <p>Moving a league from another server? <a href="{% url 'importer:native_import' %}">Import a league file</a> instead.</p>
+</section>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Invite someone · {{ league.name }}{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Invite someone to {{ league.name }}</h1>
+  <form method="post">
+    {% csrf_token %}
+    {% include "accounts/_fields.html" %}
+    <button type="submit">Create invite link</button>
+  </form>
+</section>
+{% endblock %}

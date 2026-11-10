@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}{{ player.name }} · {{ league.name }}{% endblock %}
+{% block content %}
+<h1>{{ player.name }}{% if player.status == "Retired" %} <span class="badge badge--retired">Retired{% if player.retirement_year %} {{ player.retirement_year }}{% endif %}</span>{% endif %}</h1>
+
+<section class="card">
+  <h2>Bio</h2>
+  <dl class="bio">
+    <div><dt>Position</dt><dd>{{ player.primary_position }}{% if player.secondary_position %}/{{ player.secondary_position }}{% endif %}</dd></div>
+    {% if player.team %}<div><dt>Team</dt><dd>{{ player.team.name }}</dd></div>{% endif %}
+    {% if player.overall %}<div><dt>Overall</dt><dd>{{ player.overall }}</dd></div>{% endif %}
+    {% if player.height %}<div><dt>Height</dt><dd>{{ player.height }}</dd></div>{% endif %}
+    {% if player.weight %}<div><dt>Weight</dt><dd>{{ player.weight }} lbs</dd></div>{% endif %}
+    <div><dt>Super Bowl wins</dt><dd>{{ player.super_bowl_wins }}</dd></div>
+    {% if player.awards %}<div><dt>Awards</dt><dd>{{ player.awards|join:", " }}</dd></div>{% endif %}
+  </dl>
+  {% if can_edit_bio %}<p><a href="{% url 'leagues:player_edit' league.pk player.pk %}">Edit {{ player.name }}</a></p>{% endif %}
+</section>
+
+{% if not game_log %}
+<p class="card muted">No games logged yet.</p>
+{% else %}
+<section class="card">
+  <h2>Career</h2>
+  <p>{{ career.games_played }} game{{ career.games_played|pluralize }} played{% if career.did_not_play %} · {{ career.did_not_play }} did not play{% endif %}. Averages count only games played.</p>
+  {% for table in season_tables %}
+  <h3>{{ table.label }}</h3>
+  <div class="table-scroll table-scroll--pinned">
+    <table class="stat-table" id="season-{{ table.category }}">
+      <thead><tr><th scope="col">Season</th><th scope="col">GP</th>{% for column in table.columns %}<th scope="col">{{ column.label }}</th>{% endfor %}</tr></thead>
+      <tbody>
+        {% for row in table.rows %}
+        <tr>
+          <th scope="row">{{ row.label }}</th>
+          <td>{{ row.gp }}</td>{% for value in row.cells %}<td>{{ value }}</td>{% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% empty %}
+  <p class="muted">Every logged game is a "did not play".</p>
+  {% endfor %}
+</section>
+
+<section class="card">
+  <h2>Game log</h2>
+  {% for season in game_log %}
+  <h3>{{ season.season }}</h3>
+  <div class="table-scroll table-scroll--pinned">
+    <table class="stat-table">
+      <thead><tr><th scope="col">Game</th><th scope="col">Result</th>{% for column in log_columns %}<th scope="col">{{ column.label }}</th>{% endfor %}</tr></thead>
+      <tbody>
+        {% for row in season.rows %}{% with game=row.game %}
+        <tr>
+          <th scope="row"><a href="{% url 'leagues:game' league.pk game.pk %}">Week {{ game.order }} vs {{ game.opponent }}</a></th>
+          <td>{% include "leagues/_result.html" %}</td>
+          {% if row.line.did_not_play %}<td colspan="{{ log_columns|length|default:1 }}" class="muted">DNP</td>
+          {% else %}{% for value in row.cells %}<td>{{ value }}</td>{% endfor %}{% endif %}
+        </tr>
+        {% endwith %}{% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endfor %}
+</section>
+{% endif %}
+{% endblock %}

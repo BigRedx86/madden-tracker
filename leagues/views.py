@@ -18,6 +18,7 @@ from accounts import tokens
 from accounts.models import AccountToken
 from accounts.views import show_link
 from stats import aggregate
+from stats.models import StatLine
 
 from . import policy
 from .access import get_in_league, league_view, require
@@ -222,6 +223,88 @@ def season_edit(request, league_id, season_id):
         messages.success(request, f"Saved season {season.name}.")
         return redirect("leagues:season", request.league.pk, season.pk)
     return render(request, "leagues/simple_form.html", {"form": form, "title": f"Edit season {season.name}"})
+
+
+# --- Deleting teams, seasons, and players --------------------------------------------
+
+
+def _plural(count, word):
+    return f"{count} {word}{'' if count == 1 else 's'}"
+
+
+@league_view
+def team_delete(request, league_id, team_id):
+    """Delete a team only when it has no seasons, so a mistaken team can go but games and
+    stats can't be wiped by accident. Its players stay, with no team."""
+    team = get_in_league(Team, request.league, pk=team_id)
+    require(policy.can_manage_seasons(request.user, request.league))
+    seasons = list(team.seasons.all())
+    if request.method == "POST":
+        if seasons:
+            messages.error(request, f"{team.name} can't be deleted while it has seasons.")
+            return redirect("leagues:team_delete", request.league.pk, team.pk)
+        name = team.name
+        team.delete()
+        messages.success(request, f"Deleted {name}.")
+        return redirect("leagues:teams", request.league.pk)
+    return render(
+        request,
+        "leagues/team_delete.html",
+        {"team": team, "seasons": seasons, "player_count": team.players.count()},
+    )
+
+
+@league_view
+def season_delete(request, league_id, season_id):
+    """Confirm, showing what goes with it, then delete the season, its games, and their stat lines."""
+    season = get_in_league(Season, request.league, pk=season_id)
+    require(policy.can_manage_seasons(request.user, request.league))
+    if request.method == "POST":
+        label = f"{season.team.name} {season.name}"
+        season.delete()
+        messages.success(request, f"Deleted season {label}, its games, and their stat lines.")
+        return redirect("leagues:seasons", request.league.pk)
+    game_count = season.games.count()
+    line_count = StatLine.objects.filter(game__season=season).count()
+    return render(
+        request,
+        "leagues/confirm_delete.html",
+        {
+            "title": f"Delete season {season.name}?",
+            "consequence": f"This also deletes its {_plural(game_count, 'game')} and "
+            f"{_plural(line_count, 'stat line')}. It can't be undone.",
+            "button": "Delete season, games, and stat lines",
+            "cancel_url": reverse("leagues:seasons", args=[request.league.pk]),
+        },
+    )
+
+
+@league_view
+def player_delete(request, league_id, player_id):
+    """Confirm, then delete a player and their stat lines. A linked member stays in the league, unlinked."""
+    player = get_in_league(Player, request.league, pk=player_id)
+    require(policy.can_manage_players(request.user, request.league))
+    if request.method == "POST":
+        name = player.name
+        player.delete()
+        messages.success(request, f"Deleted {name} and their stat lines.")
+        return redirect("leagues:roster", request.league.pk)
+    line_count = player.stat_lines.count()
+    linked = player.memberships.select_related("user").first()
+    consequence = f"This also deletes their {_plural(line_count, 'stat line')}. It can't be undone."
+    if linked:
+        consequence += f" {linked.user.get_username()} stays in the league but won't be linked to a player."
+    return render(
+        request,
+        "leagues/confirm_delete.html",
+        {
+            "title": f"Delete {player.name}?",
+            "consequence": consequence,
+            "alternative": "To keep their stats but take them off the active roster, retire them instead.",
+            "button": "Delete player and stat lines",
+            "cancel_url": reverse("leagues:player_edit", args=[request.league.pk, player.pk]),
+        },
+    )
 
 
 # --- Members and invites (R2, R4, R10) ---------------------------------------------

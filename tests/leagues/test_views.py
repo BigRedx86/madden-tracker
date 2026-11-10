@@ -396,3 +396,109 @@ def test_nav_links_and_members_link_only_for_commissioner(client, setup):
     assert f'href="{url(setup, "members/")}"' not in page
     client.force_login(setup["commissioner"])
     assert f'href="{url(setup, "members/")}"' in client.get(url(setup)).content.decode()
+
+
+# --- Deleting teams, seasons, and players --------------------------------------------
+
+
+def test_team_with_no_seasons_can_be_deleted_and_its_players_keep_going(client, setup):
+    extra = Team.objects.create(league=setup["league"], name="Oops Team")
+    casey = setup["players"]["Casey"]
+    casey.team = extra
+    casey.save()
+    client.force_login(setup["commissioner"])
+    assert client.get(url(setup, f"teams/{extra.pk}/delete/")).status_code == 200
+    response = client.post(url(setup, f"teams/{extra.pk}/delete/"))
+    assert response.status_code == 302
+    assert not Team.objects.filter(pk=extra.pk).exists()
+    casey.refresh_from_db()
+    assert casey.team is None
+
+
+def test_team_with_seasons_cannot_be_deleted(client, setup):
+    team, season = setup["team"], setup["season"]
+    client.force_login(setup["commissioner"])
+    page = client.get(url(setup, f"teams/{team.pk}/delete/")).content.decode().replace("&#x27;", "'")
+    assert season.name in page and "can't be deleted" in page
+    response = client.post(url(setup, f"teams/{team.pk}/delete/"), follow=True)
+    assert "can't be deleted" in response.content.decode().replace("&#x27;", "'")
+    assert Team.objects.filter(pk=team.pk).exists()
+    assert Season.objects.filter(pk=season.pk).exists()
+
+
+def test_deleting_a_season_removes_its_games_and_stat_lines_after_showing_counts(client, setup):
+    season, game = setup["season"], setup["game"]
+    StatLine.objects.create(player=setup["players"]["Jordan"], game=game, values={"receptions": 3})
+    StatLine.objects.create(player=setup["players"]["Blake"], game=game, did_not_play=True)
+    client.force_login(setup["commissioner"])
+    page = client.get(url(setup, f"seasons/{season.pk}/delete/")).content.decode()
+    assert "1 game" in page and "2 stat lines" in page
+    response = client.post(url(setup, f"seasons/{season.pk}/delete/"))
+    assert response.status_code == 302
+    assert not Season.objects.filter(pk=season.pk).exists()
+    assert not StatLine.objects.filter(game_id=game.pk).exists()
+    assert Player.objects.filter(pk=setup["players"]["Jordan"].pk).exists()
+
+
+def test_after_deleting_its_seasons_a_team_can_be_deleted(client, setup):
+    team, season = setup["team"], setup["season"]
+    client.force_login(setup["commissioner"])
+    client.post(url(setup, f"seasons/{season.pk}/delete/"))
+    client.post(url(setup, f"teams/{team.pk}/delete/"))
+    assert not Team.objects.filter(pk=team.pk).exists()
+
+
+def test_deleting_a_player_removes_their_stat_lines_and_unlinks_the_member(client, setup):
+    jordan = setup["players"]["Jordan"]
+    StatLine.objects.create(player=jordan, game=setup["game"], values={"receptions": 3})
+    client.force_login(setup["commissioner"])
+    page = client.get(url(setup, f"players/{jordan.pk}/delete/")).content.decode()
+    assert "1 stat line" in page
+    response = client.post(url(setup, f"players/{jordan.pk}/delete/"))
+    assert response.status_code == 302
+    assert not Player.objects.filter(pk=jordan.pk).exists()
+    assert not StatLine.objects.filter(player_id=jordan.pk).exists()
+    membership = Membership.objects.get(league=setup["league"], user=setup["jordan"])
+    assert membership.player is None
+
+
+def test_member_cannot_delete_teams_seasons_or_players(client, setup):
+    extra = Team.objects.create(league=setup["league"], name="Oops Team")
+    client.force_login(setup["jordan"])
+    for path in (
+        f"teams/{extra.pk}/delete/",
+        f"seasons/{setup['season'].pk}/delete/",
+        f"players/{setup['players']['Blake'].pk}/delete/",
+        f"players/{setup['players']['Jordan'].pk}/delete/",
+    ):
+        assert client.get(url(setup, path)).status_code == 403
+        assert client.post(url(setup, path)).status_code == 403
+    assert Team.objects.filter(pk=extra.pk).exists()
+    assert Season.objects.filter(pk=setup["season"].pk).exists()
+    assert Player.objects.filter(league=setup["league"]).count() == 3
+
+
+def test_deleting_through_another_leagues_url_is_404(client, setup, make_league, make_user):
+    other = make_league("Elsewhere", make_user("othercomm"), players=("Remote",))
+    other_team = Team.objects.create(league=other["league"], name="Spare")
+    client.force_login(setup["commissioner"])
+    for path in (
+        f"teams/{other_team.pk}/delete/",
+        f"seasons/{other['season'].pk}/delete/",
+        f"players/{other['players']['Remote'].pk}/delete/",
+    ):
+        assert client.post(url(setup, path)).status_code == 404
+    assert Team.objects.filter(pk=other_team.pk).exists()
+    assert Season.objects.filter(pk=other["season"].pk).exists()
+    assert Player.objects.filter(pk=other["players"]["Remote"].pk).exists()
+
+
+def test_delete_links_shown_to_the_commissioner_only(client, setup):
+    team, season, jordan = setup["team"], setup["season"], setup["players"]["Jordan"]
+    client.force_login(setup["commissioner"])
+    assert f"teams/{team.pk}/delete/" in client.get(url(setup, "teams/")).content.decode()
+    assert f"seasons/{season.pk}/delete/" in client.get(url(setup, "seasons/")).content.decode()
+    assert f"players/{jordan.pk}/delete/" in client.get(url(setup, f"players/{jordan.pk}/edit/")).content.decode()
+    client.force_login(setup["jordan"])
+    assert "/delete/" not in client.get(url(setup, "seasons/")).content.decode()
+    assert "/delete/" not in client.get(url(setup, f"players/{jordan.pk}/edit/")).content.decode()

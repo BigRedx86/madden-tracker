@@ -9,5 +9,6 @@
     {% include "accounts/_fields.html" %}
     <button type="submit">Save</button>
   </form>
+  {% if player and not bio_only %}<p><a href="{% url 'leagues:player_delete' league.pk player.pk %}">Delete {{ player.name }}</a></p>{% endif %}
 </section>
 {% endblock %}

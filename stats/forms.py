@@ -71,5 +71,22 @@ class StatLineForm(forms.Form):
     def has_values_in(self, categories):
         keys = {stat.key for stat in catalog.stats_for_categories(categories)}
         if self.is_bound:
-            return any((self.data.get(key) or "").strip() for key in keys)
+            return any((self.data.get(self.add_prefix(key)) or "").strip() for key in keys)
         return any(key in self.initial for key in keys)
+
+    def is_empty(self):
+        """True when a valid bound form has no stats and no "did not play" (nothing to save)."""
+        return not self.cleaned_data["did_not_play"] and not self.cleaned_data["values"]
+
+    def sections(self, player, show_all=False):
+        """Template context for this form's stat fields, specialized to ``player``'s positions."""
+        shown = catalog.categories_for_positions(player.primary_position, player.secondary_position)
+        extra = [key for key in catalog.CATEGORY_KEYS if key not in shown]
+        return {
+            "form": self,
+            "player": player,
+            "main_groups": self.groups(shown),
+            "extra_groups": self.groups(extra),
+            "show_all": show_all or self.has_values_in(extra),
+            "stats_disabled": bool(self.initial.get("did_not_play")) and not self.is_bound,
+        }

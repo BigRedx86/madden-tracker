@@ -1,0 +1,26 @@
+{% if form.non_field_errors %}<div class="field__error" role="alert">{% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}</div>{% endif %}
+<div class="field field--check">
+  {{ form.did_not_play }}
+  <label for="{{ form.did_not_play.id_for_label }}">{{ form.did_not_play.label }}</label>
+</div>
+<p class="field__help">Leave a stat blank if it didn't happen. Blank is not saved as 0.</p>
+<fieldset class="stat-fields"{% if stats_disabled %} disabled{% endif %}>
+  {% for label, fields in main_groups %}
+  <fieldset class="stat-group">
+    <legend>{{ label }}</legend>
+    {% for field in fields %}{% include "stats/_stat_field.html" %}{% endfor %}
+  </fieldset>
+  {% empty %}
+  <p class="muted">No stat categories for {{ player.primary_position }}. Open "Show all categories" below.</p>
+  {% endfor %}
+  <details class="extra-categories"{% if show_all %} open{% endif %}>
+    <summary>Show all categories</summary>
+    <p class="field__help">For trick plays, such as a linebacker scoring on a fake punt.</p>
+    {% for label, fields in extra_groups %}
+    <fieldset class="stat-group">
+      <legend>{{ label }}</legend>
+      {% for field in fields %}{% include "stats/_stat_field.html" %}{% endfor %}
+    </fieldset>
+    {% endfor %}
+  </details>
+</fieldset>

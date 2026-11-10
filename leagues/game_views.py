@@ -12,6 +12,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
+from stats.forms import StatLineForm
 from stats.models import StatLine
 
 from . import policy
@@ -91,21 +92,67 @@ def season_view(request, league_id, season_id):
     )
 
 
-def _game_form_page(request, form, season, game=None):
-    return render(request, "leagues/game_form.html", {"form": form, "season": season, "game": game})
+def _game_form_page(request, form, season, game=None, entries=()):
+    return render(
+        request,
+        "leagues/game_form.html",
+        {"form": form, "season": season, "game": game, "entries": entries},
+    )
+
+
+def _player_entries(season, data):
+    """One optional stat-line form per active player on the season's team, for the add-game page."""
+    players = season.team.players.filter(status=Player.Status.ACTIVE)
+    return [(player, StatLineForm(data, prefix=f"player-{player.pk}")) for player in players]
 
 
 @league_view
 def game_create(request, league_id, season_id):
+    """Add a game, and optionally each player's stat line for it, in one step.
+
+    The commissioner may edit every stat line (R15), so entering them here is the
+    same authority as the per-player entry page. A player left blank gets no line
+    and can still enter their own later. Nothing is saved unless everything is valid.
+    """
     season = get_in_league(Season, request.league, pk=season_id)
     require(policy.can_manage_games(request.user, request.league))
     next_week = (season.games.aggregate(last=Max("order"))["last"] or 0) + 1
-    form = GameForm(request.POST or None, instance=Game(season=season), initial={"order": next_week})
-    if request.method == "POST" and form.is_valid():
-        game = form.save()
-        messages.success(request, f"Added {game}.")
-        return redirect(season_url(season))
-    return _game_form_page(request, form, season)
+    data = request.POST or None
+    form = GameForm(data, instance=Game(season=season), initial={"order": next_week})
+    entries = _player_entries(season, data)
+    if request.method == "POST":
+        game_valid = form.is_valid()
+        lines_valid = all([stat_form.is_valid() for _, stat_form in entries])
+        if game_valid and lines_valid:
+            with transaction.atomic():
+                game = form.save()
+                saved = 0
+                for player, stat_form in entries:
+                    if stat_form.is_empty():
+                        continue
+                    StatLine(
+                        player=player,
+                        game=game,
+                        did_not_play=stat_form.cleaned_data["did_not_play"],
+                        values=stat_form.cleaned_data["values"],
+                    ).save()
+                    saved += 1
+            lines_note = f" with {saved} stat line{'s' if saved != 1 else ''}" if saved else ""
+            messages.success(request, f"Added {game}{lines_note}.")
+            return redirect(season_url(season))
+    sections = [
+        dict(stat_form.sections(player), open=stat_form.is_bound and _has_input(stat_form))
+        for player, stat_form in entries
+    ]
+    return _game_form_page(request, form, season, entries=sections)
+
+
+def _has_input(stat_form):
+    """Whether a submitted player section has anything in it, or errors, so it renders open."""
+    prefix = stat_form.prefix + "-"
+    return bool(stat_form.errors) or any(
+        key.startswith(prefix) and (value or "").strip() for key, value in stat_form.data.items()
+    )
 
 
 @league_view

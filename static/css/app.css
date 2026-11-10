@@ -302,3 +302,8 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   .compare-cards { display: none; }
   .bio { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* Add game with player stats: one collapsible section per player. */
+.player-entry { border: 1px solid var(--border); border-radius: 0.5rem; margin-bottom: 0.75rem; padding: 0 0.75rem; }
+.player-entry > summary { min-height: var(--tap); display: flex; align-items: center; gap: 0.25rem; cursor: pointer; font-weight: 600; flex-wrap: wrap; }
+.player-entry[open] { padding-bottom: 0.75rem; }

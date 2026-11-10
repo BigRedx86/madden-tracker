@@ -166,3 +166,80 @@ def test_game_detail_lists_each_players_status_with_edit_links_per_policy(client
     page = client.get(url(setup, f"games/{game.pk}/")).content.decode()
     for name in ("Jordan", "Corey", "Casey"):
         assert entry(name) in page
+
+
+# --- Adding a game with player stats in one step ---------------------------------
+
+def new_game_url(setup):
+    return url(setup, f"seasons/{setup['season'].pk}/games/new/")
+
+
+def stats_for(player, **values):
+    """POST data for one player's section of the add-game form."""
+    return {f"player-{player.pk}-{key}": value for key, value in values.items()}
+
+
+def test_add_game_page_has_a_stat_section_for_each_active_player_on_the_team(client, setup):
+    from leagues.models import Player, Team
+
+    players = setup["players"]
+    retired = Player.objects.create(
+        league=setup["league"], team=setup["team"], name="Retiree", primary_position="WR", status="Retired"
+    )
+    other_team = Team.objects.create(league=setup["league"], name="Other Team")
+    elsewhere = Player.objects.create(league=setup["league"], team=other_team, name="Elsewhere", primary_position="WR")
+    client.force_login(setup["commissioner"])
+    page = client.get(new_game_url(setup)).content.decode()
+    for name in ("Jordan", "Corey", "Casey"):
+        assert f'name="player-{players[name].pk}-did_not_play"' in page
+    assert f"player-{retired.pk}-" not in page
+    assert f"player-{elsewhere.pk}-" not in page
+
+
+def test_adding_a_game_saves_entered_stat_lines_and_skips_blank_players(client, setup):
+    players = setup["players"]
+    data = dict(GAME)
+    data.update(stats_for(players["Jordan"], receptions="5", receiving_yards="-3"))
+    data.update(stats_for(players["Corey"], did_not_play="on", receptions="9"))
+    client.force_login(setup["commissioner"])
+    response = client.post(new_game_url(setup), data)
+    assert response.status_code == 302
+    game = Game.objects.get(opponent="Owls")
+    jordan_line = StatLine.objects.get(game=game, player=players["Jordan"])
+    assert (jordan_line.did_not_play, jordan_line.values) == (False, {"receptions": 5, "receiving_yards": -3})
+    corey_line = StatLine.objects.get(game=game, player=players["Corey"])
+    assert (corey_line.did_not_play, corey_line.values) == (True, {})
+    assert not StatLine.objects.filter(game=game, player=players["Casey"]).exists()
+
+
+def test_adding_a_game_with_no_stats_still_works(client, setup):
+    client.force_login(setup["commissioner"])
+    response = client.post(new_game_url(setup), GAME)
+    assert response.status_code == 302
+    game = Game.objects.get(opponent="Owls")
+    assert not game.stat_lines.exists()
+
+
+def test_an_invalid_stat_saves_neither_the_game_nor_any_line(client, setup):
+    players = setup["players"]
+    data = dict(GAME)
+    data.update(stats_for(players["Jordan"], receptions="5"))
+    data.update(stats_for(players["Corey"], receptions="1e30"))
+    client.force_login(setup["commissioner"])
+    response = client.post(new_game_url(setup), data)
+    assert response.status_code == 200
+    assert "too large" in response.content.decode()
+    assert not Game.objects.filter(opponent="Owls").exists()
+    assert StatLine.objects.filter(player__in=players.values()).count() == 0
+
+
+def test_an_invalid_game_keeps_the_entered_stats_on_the_page(client, setup):
+    players = setup["players"]
+    data = dict(GAME, opponent="")
+    data.update(stats_for(players["Jordan"], receptions="7"))
+    client.force_login(setup["commissioner"])
+    response = client.post(new_game_url(setup), data)
+    assert response.status_code == 200
+    page = response.content.decode()
+    assert f'name="player-{players["Jordan"].pk}-receptions"' in page and 'value="7"' in page
+    assert not Game.objects.filter(order=2).exists()

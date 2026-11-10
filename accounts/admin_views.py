@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import Count, Exists, OuterRef
+from django.db.models import Count, Exists, OuterRef, Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -99,3 +99,59 @@ def reset_2fa_view(request, user_id):
     TOTPDevice.objects.filter(user=user).delete()
     messages.success(request, f"Two-factor authentication is off for {user.get_username()}.")
     return redirect("accounts:site_admin")
+
+
+def _sole_commissioner_leagues(user):
+    """Leagues where ``user`` is the only commissioner, so deleting them would leave nobody to run it."""
+    from leagues.models import League, Membership
+
+    led = Membership.objects.filter(user=user, is_commissioner=True).values("league_id")
+    # Count each league's commissioners on its own: counting over the same join as the
+    # filter above would only ever see this user's membership.
+    return list(
+        League.objects.filter(pk__in=led)
+        .annotate(commissioners=Count("memberships", filter=Q(memberships__is_commissioner=True)))
+        .filter(commissioners=1)
+        .order_by("name")
+    )
+
+
+@site_admin_view
+@never_cache
+def delete_user_view(request, user_id):
+    """Delete an account after typing its username. Their memberships go; the players they were
+    linked to, and those players' stats, stay as unclaimed players. Not your own account, and not
+    the only commissioner of a league."""
+    user = get_object_or_404(User, pk=user_id)
+    if user.pk == request.user.pk:
+        messages.error(request, "You can't delete your own account.")
+        return redirect("accounts:site_admin")
+    error = None
+    if request.method == "POST":
+        with transaction.atomic():
+            blocking = _sole_commissioner_leagues(user)
+            if blocking:
+                names = ", ".join(league.name for league in blocking)
+                messages.error(
+                    request,
+                    f"{user.get_username()} is the only commissioner of {names}. "
+                    "Make someone else a commissioner there, or delete the league, first.",
+                )
+                return redirect("accounts:site_admin_delete_user", user.pk)
+            if request.POST.get("confirm_username", "") == user.get_username():
+                username = user.get_username()
+                user.delete()
+                messages.success(request, f"Deleted the account {username}.")
+                return redirect("accounts:site_admin")
+            error = "Type the username exactly as shown to confirm."
+    memberships = user.memberships.select_related("league", "player").order_by("league__name")
+    return render(
+        request,
+        "accounts/site_admin/user_delete.html",
+        {
+            "account": user,
+            "memberships": memberships,
+            "blocking": _sole_commissioner_leagues(user),
+            "error": error,
+        },
+    )

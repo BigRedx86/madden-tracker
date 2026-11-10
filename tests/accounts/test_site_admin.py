@@ -23,6 +23,8 @@ def site_admin_pages(user_pk):
         ("post", f"/site-admin/users/{user_pk}/active/"),
         ("post", f"/site-admin/users/{user_pk}/reset-link/"),
         ("post", f"/site-admin/users/{user_pk}/reset-2fa/"),
+        ("get", f"/site-admin/users/{user_pk}/delete/"),
+        ("post", f"/site-admin/users/{user_pk}/delete/"),
     ]
 
 
@@ -109,3 +111,77 @@ def test_site_admin_generates_reset_link_for_anyone(client, admin, make_user, lo
 def test_django_admin_is_not_routed():
     routes = [str(p.pattern) for p in get_resolver().url_patterns]
     assert not any(route.startswith("admin") for route in routes)
+
+
+# --- Deleting an account ---------------------------------------------------------------
+
+
+def test_deleting_an_account_keeps_their_player_and_stats_unclaimed(client, admin, make_user, make_league, login_verified):
+    from leagues.models import Membership, Player
+    from stats.models import StatLine
+
+    jordan = make_user("jordan")
+    built = make_league("Lakeside", make_user("comm"), members=[(jordan, "Jordan")], players=("Jordan",))
+    player = built["players"]["Jordan"]
+    StatLine.objects.create(player=player, game=built["game"], values={"receptions": 3})
+    reset_made_by_jordan = AccountToken.objects.create(
+        purpose=AccountToken.Purpose.RESET, token_hash="x" * 64, user=admin, created_by=jordan,
+        expires_at="2099-01-01T00:00:00Z",
+    )
+    login_verified(client, admin)
+    page = client.get(f"/site-admin/users/{jordan.pk}/delete/").content.decode()
+    assert "Lakeside" in page and "Jordan" in page
+    response = client.post(f"/site-admin/users/{jordan.pk}/delete/", {"confirm_username": "jordan"})
+    assert response.status_code == 302
+    assert not User.objects.filter(pk=jordan.pk).exists()
+    assert not Membership.objects.filter(user_id=jordan.pk).exists()
+    assert Player.objects.filter(pk=player.pk).exists()
+    assert StatLine.objects.filter(player=player).count() == 1
+    reset_made_by_jordan.refresh_from_db()
+    assert reset_made_by_jordan.created_by is None
+
+
+def test_deleting_an_account_needs_the_exact_username(client, admin, make_user, login_verified):
+    jordan = make_user("jordan")
+    login_verified(client, admin)
+    response = client.post(f"/site-admin/users/{jordan.pk}/delete/", {"confirm_username": "Jordan"})
+    assert response.status_code == 200
+    assert "Type the username exactly" in response.content.decode()
+    assert User.objects.filter(pk=jordan.pk).exists()
+
+
+def test_the_last_commissioner_of_a_league_cannot_be_deleted(client, admin, make_user, make_league, login_verified):
+    comm = make_user("comm")
+    make_league("Lakeside", comm)
+    login_verified(client, admin)
+    page = client.get(f"/site-admin/users/{comm.pk}/delete/").content.decode()
+    assert "Lakeside" in page and "only commissioner" in page
+    response = client.post(f"/site-admin/users/{comm.pk}/delete/", {"confirm_username": "comm"}, follow=True)
+    assert "only commissioner" in response.content.decode()
+    assert User.objects.filter(pk=comm.pk).exists()
+
+
+def test_a_commissioner_with_a_co_commissioner_can_be_deleted(client, admin, make_user, make_league, login_verified):
+    from leagues.models import Membership
+
+    comm, other = make_user("comm"), make_user("other")
+    built = make_league("Lakeside", comm, members=[(other, None)])
+    Membership.objects.filter(league=built["league"], user=other).update(is_commissioner=True)
+    login_verified(client, admin)
+    client.post(f"/site-admin/users/{comm.pk}/delete/", {"confirm_username": "comm"})
+    assert not User.objects.filter(pk=comm.pk).exists()
+
+
+def test_site_admin_cannot_delete_their_own_account(client, admin, login_verified):
+    login_verified(client, admin)
+    response = client.post(f"/site-admin/users/{admin.pk}/delete/", {"confirm_username": "owner"}, follow=True)
+    assert "can't delete your own account" in response.content.decode().replace("&#x27;", "'")
+    assert User.objects.filter(pk=admin.pk).exists()
+
+
+def test_users_page_links_to_delete_except_for_yourself(client, admin, make_user, login_verified):
+    jordan = make_user("jordan")
+    login_verified(client, admin)
+    page = client.get("/site-admin/").content.decode()
+    assert f"/site-admin/users/{jordan.pk}/delete/" in page
+    assert f"/site-admin/users/{admin.pk}/delete/" not in page

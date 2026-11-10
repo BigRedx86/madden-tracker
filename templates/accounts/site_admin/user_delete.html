@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Delete {{ account.username }} · Site admin{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Delete {{ account.username }}?</h1>
+  {% if memberships %}
+  <p>They'll be removed from:</p>
+  <ul>
+    {% for m in memberships %}
+    <li>{{ m.league.name }}{% if m.is_commissioner %} (commissioner){% endif %}{% if m.player %} · linked to {{ m.player.name }}, who stays with their stats, unclaimed{% endif %}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>They aren't in any league.</p>
+  {% endif %}
+  {% if blocking %}
+  <p class="notice">{{ account.username }} is the only commissioner of {% for league in blocking %}{{ league.name }}{% if not forloop.last %}, {% endif %}{% endfor %}. Make someone else a commissioner there, or delete the league, first.</p>
+  <p><a href="{% url 'accounts:site_admin' %}">Back to site admin</a></p>
+  {% else %}
+  <p>Their sign-in, two-factor, and any reset links made for them are deleted. Leagues, games, and everyone else's data stay. This can't be undone; to block sign-in reversibly, disable the account instead.</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="field">
+      <label for="id_confirm_username">Type <strong>{{ account.username }}</strong> to confirm</label>
+      <input type="text" name="confirm_username" id="id_confirm_username" autocomplete="off" required>
+      {% if error %}<p class="field__error" role="alert">{{ error }}</p>{% endif %}
+    </div>
+    <button type="submit">Delete account</button>
+    <a href="{% url 'accounts:site_admin' %}">Cancel</a>
+  </form>
+  {% endif %}
+</section>
+{% endblock %}
